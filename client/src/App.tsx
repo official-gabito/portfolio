@@ -6,9 +6,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Admin from "@/pages/admin";
-import { useState, useEffect } from "react";
-import { ThemeContext } from "./context/theme-context";
 import { FormProvider } from "./context/form-context";
+import { ThemeProvider } from "./context/theme-context";
 
 function Router() {
   return (
@@ -21,36 +20,8 @@ function Router() {
 }
 
 function App() {
-  // Theme implementation directly in App component
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        return savedTheme;
-      }
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
-      }
-    }
-    return 'light';
-  });
-
-  const toggleTheme = () => {
-    setTheme(prevTheme => {
-      const newTheme = prevTheme === 'light' ? 'dark' : 'light';
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('theme', newTheme);
-      }
-      return newTheme;
-    });
-  };
-
-  useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme]);
-
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeProvider>
       <FormProvider>
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
@@ -59,7 +30,7 @@ function App() {
           </TooltipProvider>
         </QueryClientProvider>
       </FormProvider>
-    </ThemeContext.Provider>
+    </ThemeProvider>
   );
 }
 

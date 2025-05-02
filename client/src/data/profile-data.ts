@@ -116,6 +116,7 @@ export const profileData = {
     { name: "JavaScript", icon: "fab fa-js" },
     { name: "HTML5", icon: "fab fa-html5" },
     { name: "CSS3", icon: "fab fa-css3-alt" },
+    { name: "Bootstrap", icon: "fab fa-bootstrap" },
     { name: "Node.js", icon: "fab fa-node-js" },
     { name: "Firebase", icon: "fas fa-fire" },
     { name: "SQL", icon: "fas fa-database" },

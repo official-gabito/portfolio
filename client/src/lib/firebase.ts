@@ -87,8 +87,8 @@ export const deleteContactMessage = async (id: string) => {
 export interface AppointmentData {
   fullName: string;
   email: string;
-  preferredDate: Date;
-  time: Date;
+  preferredDate: Date | null;
+  time: Date | null;
   topic: string;
   dateFormatted: string;
   timeFormatted: string;

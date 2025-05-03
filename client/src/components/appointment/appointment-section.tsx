@@ -167,25 +167,25 @@ export default function AppointmentSection() {
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Name field */}
+                {/* Full Name field */}
                 <div className="relative">
                   <motion.label 
-                    htmlFor="name" 
-                    className="absolute left-4 top-3.5 origin-left pointer-events-none text-gray-500 transition-all duration-200"
+                    htmlFor="fullName" 
+                    className="absolute left-4 top-3.5 origin-left pointer-events-none text-gray-500 dark:text-gray-400 transition-all duration-200"
                     variants={floatingLabelVariants}
-                    animate={focusedField === 'name' || formData.name ? "focused" : "default"}
+                    animate={focusedField === 'fullName' || formData.fullName ? "focused" : "default"}
                   >
-                    Name
+                    Full Name
                   </motion.label>
                   
                   <input 
                     type="text" 
-                    id="name" 
-                    className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent transition-all"
+                    id="fullName" 
+                    className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent dark:text-white text-gray-900 transition-all"
                     required
-                    value={formData.name}
+                    value={formData.fullName}
                     onChange={handleChange}
-                    onFocus={() => setFocusedField('name')}
+                    onFocus={() => setFocusedField('fullName')}
                     onBlur={() => setFocusedField(null)}
                   />
                   
@@ -193,7 +193,7 @@ export default function AppointmentSection() {
                     className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 origin-left"
                     variants={focusIndicatorVariants}
                     initial="hidden"
-                    animate={focusedField === 'name' ? "visible" : "hidden"}
+                    animate={focusedField === 'fullName' ? "visible" : "hidden"}
                   />
                 </div>
                 
@@ -201,7 +201,7 @@ export default function AppointmentSection() {
                 <div className="relative">
                   <motion.label 
                     htmlFor="email" 
-                    className="absolute left-4 top-3.5 origin-left pointer-events-none text-gray-500 transition-all duration-200"
+                    className="absolute left-4 top-3.5 origin-left pointer-events-none text-gray-500 dark:text-gray-400 transition-all duration-200"
                     variants={floatingLabelVariants}
                     animate={focusedField === 'email' || formData.email ? "focused" : "default"}
                   >
@@ -211,7 +211,7 @@ export default function AppointmentSection() {
                   <input 
                     type="email" 
                     id="email" 
-                    className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent transition-all"
+                    className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent dark:text-white text-gray-900 transition-all"
                     required
                     value={formData.email}
                     onChange={handleChange}
@@ -228,43 +228,13 @@ export default function AppointmentSection() {
                 </div>
               </div>
               
-              {/* Phone field */}
-              <div className="relative">
-                <motion.label 
-                  htmlFor="phone" 
-                  className="absolute left-4 top-3.5 origin-left pointer-events-none text-gray-500 transition-all duration-200"
-                  variants={floatingLabelVariants}
-                  animate={focusedField === 'phone' || formData.phone ? "focused" : "default"}
-                >
-                  Phone
-                </motion.label>
-                
-                <input 
-                  type="tel" 
-                  id="phone" 
-                  className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent transition-all"
-                  required
-                  value={formData.phone}
-                  onChange={handleChange}
-                  onFocus={() => setFocusedField('phone')}
-                  onBlur={() => setFocusedField(null)}
-                />
-                
-                <motion.div 
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 origin-left"
-                  variants={focusIndicatorVariants}
-                  initial="hidden"
-                  animate={focusedField === 'phone' ? "visible" : "hidden"}
-                />
-              </div>
-              
               {/* Date and Time selector */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="glass p-4 rounded-xl">
                   <h3 className="font-medium text-primary mb-3">Select Date</h3>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateCalendar 
-                      value={formData.date}
+                      value={formData.preferredDate}
                       onChange={handleDateChange}
                       disablePast
                     />
@@ -286,32 +256,32 @@ export default function AppointmentSection() {
                   <div className="mt-6 text-center">
                     <h4 className="font-medium">Selected Date & Time:</h4>
                     <p className="text-primary font-semibold">
-                      {formData.date ? format(formData.date, 'PPP') : 'No date selected'} 
+                      {formData.preferredDate ? format(formData.preferredDate, 'PPP') : 'No date selected'} 
                       {formData.time ? ` at ${format(formData.time, 'p')}` : ''}
                     </p>
                   </div>
                 </div>
               </div>
               
-              {/* Reason for appointment */}
+              {/* Topic for appointment */}
               <div className="relative">
                 <motion.label 
-                  htmlFor="reason" 
-                  className="absolute left-4 top-3.5 origin-left pointer-events-none text-gray-500 transition-all duration-200"
+                  htmlFor="topic" 
+                  className="absolute left-4 top-3.5 origin-left pointer-events-none text-gray-500 dark:text-gray-400 transition-all duration-200"
                   variants={floatingLabelVariants}
-                  animate={focusedField === 'reason' || formData.reason ? "focused" : "default"}
+                  animate={focusedField === 'topic' || formData.topic ? "focused" : "default"}
                 >
-                  Reason for Appointment
+                  Topic/Reason for Appointment
                 </motion.label>
                 
                 <textarea 
-                  id="reason" 
+                  id="topic" 
                   rows={4} 
-                  className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent transition-all resize-none"
+                  className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent dark:text-white text-gray-900 transition-all resize-none"
                   required
-                  value={formData.reason}
+                  value={formData.topic}
                   onChange={handleChange}
-                  onFocus={() => setFocusedField('reason')}
+                  onFocus={() => setFocusedField('topic')}
                   onBlur={() => setFocusedField(null)}
                 ></textarea>
                 
@@ -319,7 +289,7 @@ export default function AppointmentSection() {
                   className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 origin-left"
                   variants={focusIndicatorVariants}
                   initial="hidden"
-                  animate={focusedField === 'reason' ? "visible" : "hidden"}
+                  animate={focusedField === 'topic' ? "visible" : "hidden"}
                 />
               </div>
               

@@ -44,6 +44,8 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
     });
   };
 
+  const { showAlert } = useUI();
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -63,11 +65,26 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
       });
       resetSelectedPackage();
       
-      // Show success modal
+      // Show success modal and custom alert
       onSuccess();
+      showAlert({
+        type: 'success',
+        title: 'Message Sent!',
+        message: 'Your message has been sent successfully. I\'ll get back to you as soon as possible!',
+        autoClose: true,
+        autoCloseTime: 5000,
+        position: 'top'
+      });
     } catch (error) {
       console.error('Error sending message:', error);
-      alert('There was an error sending your message. Please try again.');
+      showAlert({
+        type: 'error',
+        title: 'Message Failed',
+        message: 'There was an error sending your message. Please try again later.',
+        autoClose: true,
+        autoCloseTime: 6000,
+        position: 'top'
+      });
     } finally {
       setIsSubmitting(false);
     }

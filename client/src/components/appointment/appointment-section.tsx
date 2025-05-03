@@ -1,10 +1,11 @@
 import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { format } from 'date-fns';
+import { format, addDays, addMonths } from 'date-fns';
+import { useUI } from '@/context/ui-context';
 
 interface AppointmentFormData {
   fullName: string;
@@ -51,15 +52,23 @@ export default function AppointmentSection() {
     });
   };
 
+  const { showAlert, showLoader, hideLoader } = useUI();
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.preferredDate || !formData.time) {
-      alert('Please select both date and time for your appointment');
+      showAlert({
+        type: 'warning',
+        title: 'Missing Information',
+        message: 'Please select both date and time for your appointment.',
+        position: 'top'
+      });
       return;
     }
     
     setIsSubmitting(true);
+    showLoader({ text: 'Scheduling your appointment...', type: 'pulse' });
     
     // Format date and time to be stored in Firestore
     const appointmentDateStr = format(formData.preferredDate, 'PP');
@@ -78,24 +87,45 @@ export default function AppointmentSection() {
       
       // Show success message
       setShowSuccess(true);
+      hideLoader();
       
-      // Reset form after 3 seconds
+      showAlert({
+        type: 'success',
+        title: 'Appointment Scheduled!',
+        message: `Your appointment has been scheduled for ${appointmentDateStr} at ${appointmentTimeStr}. I'll be in touch soon to confirm.`,
+        autoClose: true,
+        autoCloseTime: 6000,
+        position: 'top'
+      });
+      
+      // Reset form after success
+      setFormData({
+        fullName: '',
+        email: '',
+        preferredDate: null,
+        time: null,
+        topic: ''
+      });
+      
+      // Hide success state after delay
       setTimeout(() => {
-        setFormData({
-          fullName: '',
-          email: '',
-          preferredDate: null,
-          time: null,
-          topic: ''
-        });
         setShowSuccess(false);
       }, 3000);
       
     } catch (error) {
       console.error('Error booking appointment:', error);
-      alert('There was an error booking your appointment. Please try again.');
+      hideLoader();
+      showAlert({
+        type: 'error',
+        title: 'Booking Failed',
+        message: 'There was an error scheduling your appointment. Please try again later.',
+        autoClose: true,
+        autoCloseTime: 6000,
+        position: 'top'
+      });
     } finally {
       setIsSubmitting(false);
+      hideLoader();
     }
   };
 
@@ -228,41 +258,155 @@ export default function AppointmentSection() {
                 </div>
               </div>
               
-              {/* Date and Time selector */}
+              {/* Date and Time selector - Improved Layout */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="glass p-4 rounded-xl">
-                  <h3 className="font-medium text-primary mb-3 dark:text-primary-foreground">Select Date</h3>
+                <div className="relative glass p-5 rounded-xl shadow-sm">
+                  <h3 className="font-medium text-primary dark:text-primary-foreground text-center mb-3">
+                    <motion.span 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="inline-flex items-center gap-2"
+                    >
+                      <i className="fas fa-calendar-alt"></i>
+                      <span>Select Your Date</span>
+                    </motion.span>
+                  </h3>
+                  
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DateCalendar 
+                    <DatePicker
+                      label="Appointment Date"
                       value={formData.preferredDate || null}
                       onChange={handleDateChange}
                       disablePast
-                      className="theme-date-picker"
+                      className="w-full theme-date-picker"
+                      slotProps={{ 
+                        textField: { 
+                          variant: 'outlined',
+                          fullWidth: true,
+                          InputProps: {
+                            className: "bg-background/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-lg"
+                          }
+                        } 
+                      }}
                     />
                   </LocalizationProvider>
+                  
+                  {/* Quick Date Buttons */}
+                  <div className="flex flex-wrap gap-2 mt-4 justify-center">
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors"
+                      onClick={() => handleDateChange(new Date())}
+                    >
+                      Today
+                    </motion.button>
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors"
+                      onClick={() => handleDateChange(addDays(new Date(), 1))}
+                    >
+                      Tomorrow
+                    </motion.button>
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors"
+                      onClick={() => handleDateChange(addDays(new Date(), 2))}
+                    >
+                      Day After
+                    </motion.button>
+                    <motion.button
+                      type="button"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors"
+                      onClick={() => handleDateChange(addDays(new Date(), 7))}
+                    >
+                      Next Week
+                    </motion.button>
+                  </div>
                 </div>
                 
-                <div className="glass p-4 rounded-xl">
-                  <h3 className="font-medium text-primary mb-3 dark:text-primary-foreground">Select Time</h3>
+                <div className="relative glass p-5 rounded-xl shadow-sm">
+                  <h3 className="font-medium text-primary dark:text-primary-foreground text-center mb-3">
+                    <motion.span 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="inline-flex items-center gap-2"
+                    >
+                      <i className="fas fa-clock"></i>
+                      <span>Select Your Time</span>
+                    </motion.span>
+                  </h3>
+                  
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <TimePicker
                       label="Appointment Time"
                       value={formData.time || null}
                       onChange={handleTimeChange}
                       className="w-full theme-time-picker"
+                      slotProps={{ 
+                        textField: { 
+                          variant: 'outlined', 
+                          fullWidth: true,
+                          InputProps: {
+                            className: "bg-background/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-lg"
+                          }
+                        } 
+                      }}
                     />
                   </LocalizationProvider>
                   
-                  {/* Selected date and time display */}
-                  <div className="mt-6 text-center">
-                    <h4 className="font-medium dark:text-gray-200">Selected Date & Time:</h4>
-                    <p className="text-primary font-semibold dark:text-primary-foreground">
-                      {formData.preferredDate ? format(formData.preferredDate, 'PPP') : 'No date selected'} 
-                      {formData.time ? ` at ${format(formData.time, 'p')}` : ''}
-                    </p>
+                  {/* Quick Time Buttons */}
+                  <div className="flex flex-wrap gap-2 mt-4 justify-center">
+                    {["09:00", "12:00", "15:00", "18:00"].map((timeStr) => {
+                      const [hours, minutes] = timeStr.split(':').map(Number);
+                      const timeToSet = new Date();
+                      timeToSet.setHours(hours, minutes, 0);
+                      
+                      return (
+                        <motion.button
+                          key={timeStr}
+                          type="button"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="text-xs px-3 py-1.5 rounded-full bg-primary/10 text-primary dark:bg-primary/20 hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors"
+                          onClick={() => handleTimeChange(timeToSet)}
+                        >
+                          {timeStr}
+                        </motion.button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
+              
+              {/* Selected Date and Time Summary */}
+              {(formData.preferredDate || formData.time) && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="glass p-4 rounded-xl text-center border border-primary/10"
+                >
+                  <p className="text-foreground/80 dark:text-gray-300 mb-1">Your selected appointment:</p>
+                  <p className="text-primary font-semibold text-lg dark:text-primary-foreground flex items-center justify-center gap-2">
+                    {formData.preferredDate ? (
+                      <><i className="fas fa-calendar-check"></i> {format(formData.preferredDate, 'PPPP')}</>
+                    ) : (
+                      <><i className="fas fa-calendar"></i> No date selected</>
+                    )}
+                    {formData.time && (
+                      <><span className="mx-2">at</span> <i className="fas fa-clock"></i> {format(formData.time, 'p')}</>
+                    )}
+                  </p>
+                </motion.div>
+              )}
               
               {/* Topic for appointment */}
               <div className="relative">

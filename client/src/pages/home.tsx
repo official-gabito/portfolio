@@ -4,6 +4,8 @@ import AboutSection from '@/components/about/about-section';
 import SkillsSection from '@/components/skills/skills-section';
 import ProjectsSection from '@/components/projects/projects-section';
 import ServicesSection from '@/components/services/services-section';
+import PricingSection from '@/components/pricing/pricing-section';
+import AppointmentSection from '@/components/appointment/appointment-section';
 import ContactSection from '@/components/contact/contact-section';
 import { useEffect } from 'react';
 
@@ -49,6 +51,12 @@ export default function Home() {
       </div>
       <div className="fadeIn">
         <ServicesSection />
+      </div>
+      <div className="fadeIn">
+        <PricingSection />
+      </div>
+      <div className="fadeIn">
+        <AppointmentSection />
       </div>
       <div className="fadeIn">
         <ContactSection />

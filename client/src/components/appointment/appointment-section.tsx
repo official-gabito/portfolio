@@ -68,12 +68,16 @@ export default function AppointmentSection() {
     const appointmentTimeStr = format(formData.time, 'p');
     
     try {
-      // Here we'll add Firebase integration once you have the Firebase configuration
-      console.log("Appointment data:", {
+      // Import dynamically to avoid issues with SSR
+      const { scheduleAppointment } = await import('@/lib/firebase');
+      
+      // Send data to Firebase
+      await scheduleAppointment({
         ...formData,
+        date: formData.date,
+        time: formData.time,
         dateFormatted: appointmentDateStr,
-        timeFormatted: appointmentTimeStr,
-        createdAt: new Date()
+        timeFormatted: appointmentTimeStr
       });
       
       // Show success message

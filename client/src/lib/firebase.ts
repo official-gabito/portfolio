@@ -26,6 +26,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+// CONTACT MESSAGES
+
 export interface ContactMessageData {
   name: string;
   email: string;
@@ -78,6 +80,108 @@ export const deleteContactMessage = async (id: string) => {
     throw new Error('Failed to delete message');
   }
 };
+
+// APPOINTMENTS
+
+export interface AppointmentData {
+  name: string;
+  email: string;
+  phone: string;
+  date: Date;
+  time: Date;
+  reason: string;
+  dateFormatted: string;
+  timeFormatted: string;
+}
+
+export const scheduleAppointment = async (data: AppointmentData) => {
+  try {
+    // Add a timestamp to the data
+    const appointmentWithTimestamp = {
+      ...data,
+      createdAt: serverTimestamp()
+    };
+    
+    // Add document to Firestore
+    const docRef = await addDoc(collection(db, 'appointments'), appointmentWithTimestamp);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error scheduling appointment:", error);
+    throw new Error('Failed to schedule appointment');
+  }
+};
+
+export const getAppointments = async () => {
+  try {
+    // Get documents from Firestore, ordered by createdAt (newest first)
+    const q = query(collection(db, 'appointments'), orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(q);
+    
+    const appointments = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+      createdAt: doc.data().createdAt?.toDate() || new Date(),
+    }));
+    
+    return appointments;
+  } catch (error) {
+    console.error("Error getting appointments:", error);
+    throw new Error('Failed to get appointments');
+  }
+};
+
+// ORDERS
+
+export interface OrderData {
+  name: string;
+  email: string;
+  phone: string;
+  projectDescription: string;
+  timeline: string;
+  budget: string;
+  references?: string;
+  additionalInfo?: string;
+  planId: string;
+  planName: string;
+}
+
+export const submitOrder = async (data: OrderData) => {
+  try {
+    // Add a timestamp to the data
+    const orderWithTimestamp = {
+      ...data,
+      createdAt: serverTimestamp()
+    };
+    
+    // Add document to Firestore
+    const docRef = await addDoc(collection(db, 'orders'), orderWithTimestamp);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error submitting order:", error);
+    throw new Error('Failed to submit order');
+  }
+};
+
+export const getOrders = async () => {
+  try {
+    // Get documents from Firestore, ordered by createdAt (newest first)
+    const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(q);
+    
+    const orders = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+      createdAt: doc.data().createdAt?.toDate() || new Date(),
+    }));
+    
+    return orders;
+  } catch (error) {
+    console.error("Error getting orders:", error);
+    throw new Error('Failed to get orders');
+  }
+};
+
+// STORAGE
 
 export const getFileUrl = async (path: string) => {
   try {

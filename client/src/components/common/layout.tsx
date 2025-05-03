@@ -34,6 +34,7 @@ function NavLinks() {
 // Mobile navigation with icons and active state highlighting
 function MobileSidebarLinks() {
   const [activeSection, setActiveSection] = useState('home');
+  const { toggleMobileMenu } = useContext(MobileMenuContext);
 
   // Navigation items with icons
   const navItems = [
@@ -47,10 +48,15 @@ function MobileSidebarLinks() {
     { id: 'contact', label: 'Contact Me', icon: 'envelope' },
   ];
   
+  const handleClick = (id: string) => {
+    setActiveSection(id);
+    toggleMobileMenu(); // Close the mobile menu after clicking
+  };
+  
   return (
     <>
       {navItems.map(item => (
-        <a 
+        <motion.a 
           key={item.id}
           href={`#${item.id}`} 
           className={`flex items-center gap-3 p-3 rounded-lg transition-colors duration-200 ${
@@ -58,21 +64,29 @@ function MobileSidebarLinks() {
               ? 'bg-primary/10 text-primary font-medium' 
               : 'hover:bg-muted'
           }`}
-          onClick={() => setActiveSection(item.id)}
+          onClick={() => handleClick(item.id)}
+          whileHover={{ x: 5 }}
+          whileTap={{ scale: 0.98 }}
         >
           <i className={`fas fa-${item.icon} w-5 h-5 ${activeSection === item.id ? 'text-primary' : ''}`} />
           <span>{item.label}</span>
-        </a>
+        </motion.a>
       ))}
       
       <div className="mt-4 pt-4 border-t">
-        <Link 
-          href="/admin" 
-          className="flex items-center gap-3 p-3 rounded-lg transition-colors hover:bg-muted"
+        <motion.div
+          whileHover={{ x: 5 }}
+          whileTap={{ scale: 0.98 }}
         >
-          <i className="fas fa-lock w-5 h-5" />
-          <span>Admin Panel</span>
-        </Link>
+          <Link 
+            href="/admin" 
+            className="flex items-center gap-3 p-3 rounded-lg transition-colors hover:bg-muted"
+            onClick={toggleMobileMenu}
+          >
+            <i className="fas fa-lock w-5 h-5" />
+            <span>Admin Panel</span>
+          </Link>
+        </motion.div>
       </div>
     </>
   );
@@ -165,7 +179,12 @@ export default function Layout({ children }: LayoutProps) {
         )}
       </AnimatePresence>
 
-      <nav className="fixed top-0 w-full z-30 bg-background dark:bg-background shadow-sm transition-colors duration-300 backdrop-blur-md">
+      <motion.nav 
+        className="fixed top-0 w-full z-30 bg-background dark:bg-background shadow-sm transition-colors duration-300 backdrop-blur-md"
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+      >
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <motion.a 
             href="#home"
@@ -173,6 +192,7 @@ export default function Layout({ children }: LayoutProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
+            onClick={() => setIsMobileMenuOpen(false)}
           >
             <span className="bg-primary text-primary-foreground px-2 py-1 rounded mr-2">GN</span>
             Gabriel
@@ -181,24 +201,43 @@ export default function Layout({ children }: LayoutProps) {
           <div className="flex items-center gap-4">
             <ThemeToggle />
             
-            <button 
+            <motion.button 
               className="flex lg:hidden items-center justify-center w-10 h-10 text-foreground hover:bg-muted rounded-full transition-colors"
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               onClick={toggleMobileMenu}
+              whileTap={{ scale: 0.9 }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="4" y1="12" x2="20" y2="12"></line>
-                <line x1="4" y1="6" x2="20" y2="6"></line>
-                <line x1="4" y1="18" x2="20" y2="18"></line>
-              </svg>
-            </button>
+              <motion.div
+                animate={isMobileMenuOpen ? "open" : "closed"}
+                variants={{
+                  open: { rotate: 90 },
+                  closed: { rotate: 0 }
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  {isMobileMenuOpen ? (
+                    <>
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </>
+                  ) : (
+                    <>
+                      <line x1="4" y1="12" x2="20" y2="12"></line>
+                      <line x1="4" y1="6" x2="20" y2="6"></line>
+                      <line x1="4" y1="18" x2="20" y2="18"></line>
+                    </>
+                  )}
+                </svg>
+              </motion.div>
+            </motion.button>
             
             <div className="hidden lg:flex items-center gap-6">
               <NavLinks />
             </div>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
       <main className="pt-20 theme-transition">
         {children}

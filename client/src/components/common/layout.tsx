@@ -73,71 +73,71 @@ export default function Layout({ children }: LayoutProps) {
         </AnimatePresence>
       </nav>
 
-      <main className="pt-20">
+      <main className="pt-20 theme-transition">
         {children}
       </main>
 
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 dark:bg-gray-950 text-white py-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
-              <a href="#" className="font-heading font-bold text-2xl text-primary-500 flex items-center mb-4">
+              <a href="#" className="font-heading font-bold text-2xl text-primary flex items-center mb-4">
                 <span className="bg-primary text-primary-foreground px-2 py-1 rounded mr-2">GN</span>
                 Gabriel
               </a>
-              <p className="text-gray-400 mb-4">
+              <p className="text-gray-400 dark:text-gray-300 mb-4">
                 Building high-quality web and mobile applications that deliver exceptional user experiences.
               </p>
               <SocialIcons />
             </div>
             
             <div>
-              <h4 className="font-heading text-lg font-bold mb-4">Services</h4>
+              <h4 className="font-heading text-lg font-bold mb-4 text-gray-100">Services</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-primary transition-colors duration-300">Mobile App Development</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-primary transition-colors duration-300">Web Development</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-primary transition-colors duration-300">UI/UX Design</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-primary transition-colors duration-300">Backend Development</a></li>
+                <li><a href="#" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Mobile App Development</a></li>
+                <li><a href="#" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Web Development</a></li>
+                <li><a href="#" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">UI/UX Design</a></li>
+                <li><a href="#" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Backend Development</a></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="font-heading text-lg font-bold mb-4">Quick Links</h4>
+              <h4 className="font-heading text-lg font-bold mb-4 text-gray-100">Quick Links</h4>
               <ul className="space-y-2">
-                <li><a href="#home" className="text-gray-400 hover:text-primary transition-colors duration-300">Home</a></li>
-                <li><a href="#about" className="text-gray-400 hover:text-primary transition-colors duration-300">About</a></li>
-                <li><a href="#projects" className="text-gray-400 hover:text-primary transition-colors duration-300">Projects</a></li>
-                <li><a href="#pricing" className="text-gray-400 hover:text-primary transition-colors duration-300">Pricing</a></li>
-                <li><a href="#appointment" className="text-gray-400 hover:text-primary transition-colors duration-300">Book Appointment</a></li>
-                <li><a href="#contact" className="text-gray-400 hover:text-primary transition-colors duration-300">Contact</a></li>
+                <li><a href="#home" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Home</a></li>
+                <li><a href="#about" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">About</a></li>
+                <li><a href="#projects" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Projects</a></li>
+                <li><a href="#pricing" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Pricing</a></li>
+                <li><a href="#appointment" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Book Appointment</a></li>
+                <li><a href="#contact" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Contact</a></li>
               </ul>
             </div>
             
             <div>
-              <h4 className="font-heading text-lg font-bold mb-4">Contact</h4>
+              <h4 className="font-heading text-lg font-bold mb-4 text-gray-100">Contact</h4>
               <ul className="space-y-2">
                 <li className="flex items-start gap-3">
                   <i className="fas fa-map-marker-alt text-primary mt-1"></i>
-                  <span className="text-gray-400">{profileData.location}</span>
+                  <span className="text-gray-400 dark:text-gray-300">{profileData.location}</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <i className="fas fa-envelope text-primary mt-1"></i>
-                  <a href={`mailto:${profileData.email}`} className="text-gray-400 hover:text-primary transition-colors duration-300">{profileData.email}</a>
+                  <a href={`mailto:${profileData.email}`} className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">{profileData.email}</a>
                 </li>
                 <li className="flex items-start gap-3">
                   <i className="fas fa-phone-alt text-primary mt-1"></i>
-                  <a href={`tel:${profileData.phone}`} className="text-gray-400 hover:text-primary transition-colors duration-300">{profileData.phone}</a>
+                  <a href={`tel:${profileData.phone}`} className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">{profileData.phone}</a>
                 </li>
               </ul>
             </div>
           </div>
           
-          <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">© {new Date().getFullYear()} Gabriel Naandum. All rights reserved.</p>
+          <div className="border-t border-gray-800 dark:border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-400 dark:text-gray-300 text-sm">© {new Date().getFullYear()} Gabriel Naandum. All rights reserved.</p>
             <div className="mt-4 md:mt-0">
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors duration-300 text-sm">Privacy Policy</a>
-              <span className="mx-2 text-gray-600">|</span>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors duration-300 text-sm">Terms of Service</a>
+              <a href="#" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300 text-sm">Privacy Policy</a>
+              <span className="mx-2 text-gray-600 dark:text-gray-500">|</span>
+              <a href="#" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300 text-sm">Terms of Service</a>
             </div>
           </div>
         </div>

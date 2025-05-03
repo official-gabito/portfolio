@@ -4,6 +4,86 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    
+    --radius: 0.5rem;
+
+    --glass-bg: 0 0% 100% / 0.25;
+    --glass-border: 0 0% 100% / 0.18;
+    --glass-shadow: 31 38 135 / 0.15;
+
+    --input-bg: 0 0% 100% / 0.85;
+    --input-text: 215 28% 17%;
+    --input-placeholder: 215 16% 47% / 0.8;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+
+    --glass-bg: 225 25% 14% / 0.35;
+    --glass-border: 0 0% 100% / 0.05;
+    --glass-shadow: 220 80% 30% / 0.15;
+
+    --input-bg: 222 25% 20% / 0.85;
+    --input-text: 210 40% 96%;
+    --input-placeholder: 210 34% 80% / 0.8;
+  }
+}
+
 /* Lottie Animation Component */
 .lottie-container {
   width: 100%;
@@ -15,36 +95,22 @@
 
 /* Glassmorphism Effects */
 .glass {
-  background: rgba(255, 255, 255, 0.25);
+  background: hsl(var(--glass-bg));
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-}
-
-.dark .glass {
-  background: rgba(30, 30, 40, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid hsl(var(--glass-border));
+  box-shadow: 0 8px 32px 0 hsl(var(--glass-shadow));
 }
 
 /* Input field specific glassmorphism with better contrast */
 input.glass, textarea.glass, select.glass {
-  background: rgba(255, 255, 255, 0.85);
-  color: #333;
-}
-
-.dark input.glass, .dark textarea.glass, .dark select.glass {
-  background: rgba(40, 40, 60, 0.85);
-  color: #f1f5f9;
+  background: hsl(var(--input-bg));
+  color: hsl(var(--input-text));
 }
 
 /* Placeholder text with better contrast */
 .glass::placeholder {
-  color: rgba(75, 85, 99, 0.8);
-}
-
-.dark .glass::placeholder {
-  color: rgba(209, 213, 219, 0.8);
+  color: hsl(var(--input-placeholder));
 }
 
 /* 3D Tilt Effect */
@@ -292,6 +358,80 @@ input.glass, textarea.glass, select.glass {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(73, 130, 229, 0.8);
+}
+
+/* MUI Theme Style Overrides for Dark Mode */
+.theme-date-picker.MuiDateCalendar-root {
+  color: inherit;
+}
+
+.dark .MuiPickersDay-root {
+  color: hsl(var(--foreground));
+}
+
+.dark .MuiDayCalendar-header span {
+  color: hsl(var(--foreground));
+}
+
+.dark .MuiPickersDay-root.Mui-selected {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.dark .MuiPickersDay-root:hover {
+  background-color: hsl(var(--muted));
+}
+
+.dark .MuiPickersYear-yearButton {
+  color: hsl(var(--foreground));
+}
+
+.dark .MuiPickersArrowSwitcher-button svg {
+  color: hsl(var(--foreground));
+}
+
+.dark .MuiTimeClock-root {
+  color: hsl(var(--foreground));
+}
+
+.dark .MuiClockNumber-root {
+  color: hsl(var(--foreground));
+}
+
+.dark .MuiTimeClockNumber-root.Mui-selected {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.dark .MuiInputBase-root {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--card));
+}
+
+.dark .MuiInputLabel-root {
+  color: hsl(var(--foreground));
+}
+
+.dark .MuiOutlinedInput-notchedOutline {
+  border-color: hsl(var(--border));
+}
+
+.dark .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: hsl(var(--primary));
+}
+
+.dark .MuiIconButton-root {
+  color: hsl(var(--foreground));
+}
+
+.dark .MuiClock-pin, 
+.dark .MuiClockPointer-root,
+.dark .MuiClockPointer-thumb {
+  background-color: hsl(var(--primary));
+}
+
+.dark .MuiTextField-root label.Mui-focused {
+  color: hsl(var(--primary));
 }
 
 :root {

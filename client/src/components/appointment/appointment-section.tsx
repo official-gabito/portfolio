@@ -231,31 +231,32 @@ export default function AppointmentSection() {
               {/* Date and Time selector */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="glass p-4 rounded-xl">
-                  <h3 className="font-medium text-primary mb-3">Select Date</h3>
+                  <h3 className="font-medium text-primary mb-3 dark:text-primary-foreground">Select Date</h3>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateCalendar 
-                      value={formData.preferredDate}
+                      value={formData.preferredDate || null}
                       onChange={handleDateChange}
                       disablePast
+                      className="theme-date-picker"
                     />
                   </LocalizationProvider>
                 </div>
                 
                 <div className="glass p-4 rounded-xl">
-                  <h3 className="font-medium text-primary mb-3">Select Time</h3>
+                  <h3 className="font-medium text-primary mb-3 dark:text-primary-foreground">Select Time</h3>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <TimePicker
                       label="Appointment Time"
-                      value={formData.time}
+                      value={formData.time || null}
                       onChange={handleTimeChange}
-                      className="w-full"
+                      className="w-full theme-time-picker"
                     />
                   </LocalizationProvider>
                   
                   {/* Selected date and time display */}
                   <div className="mt-6 text-center">
-                    <h4 className="font-medium">Selected Date & Time:</h4>
-                    <p className="text-primary font-semibold">
+                    <h4 className="font-medium dark:text-gray-200">Selected Date & Time:</h4>
+                    <p className="text-primary font-semibold dark:text-primary-foreground">
                       {formData.preferredDate ? format(formData.preferredDate, 'PPP') : 'No date selected'} 
                       {formData.time ? ` at ${format(formData.time, 'p')}` : ''}
                     </p>

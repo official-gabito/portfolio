@@ -48,7 +48,24 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
 
   // Apply theme to document when it changes
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark');
+    const root = document.documentElement;
+    
+    // Add transition class before changing theme to enable smooth transitions
+    root.classList.add('theme-transition');
+    
+    // Apply or remove dark class based on theme
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    
+    // Remove transition class after a short delay to prevent transitions on page load
+    const timeoutId = setTimeout(() => {
+      root.classList.remove('theme-transition');
+    }, 500);
+    
+    return () => clearTimeout(timeoutId);
   }, [theme]);
 
   return (

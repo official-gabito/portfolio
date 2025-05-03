@@ -18,7 +18,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
     name: '',
     email: '',
     phone: '',
-    package: selectedPackage || '',
+    subject: selectedPackage || '',
     message: ''
   });
 
@@ -44,7 +44,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
         name: '',
         email: '',
         phone: '',
-        package: '',
+        subject: '',
         message: ''
       });
       resetSelectedPackage();
@@ -242,45 +242,36 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
         />
       </motion.div>
       
-      {/* Package selection field */}
+      {/* Subject field */}
       <motion.div 
         variants={inputVariants}
         className="relative"
       >
         <motion.label 
-          htmlFor="package" 
+          htmlFor="subject" 
           className="absolute left-4 top-3.5 origin-left pointer-events-none text-gray-500 transition-all duration-200"
           variants={floatingLabelVariants}
-          animate={focusedField === 'package' || formData.package ? "focused" : "default"}
+          animate={focusedField === 'subject' || formData.subject ? "focused" : "default"}
         >
-          Package (Optional)
+          Subject
         </motion.label>
         
-        <select 
-          id="package" 
-          className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent transition-all appearance-none"
-          value={formData.package}
+        <input 
+          type="text" 
+          id="subject" 
+          className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent transition-all"
+          required
+          value={formData.subject}
           onChange={handleChange}
-          onFocus={() => setFocusedField('package')}
+          onFocus={() => setFocusedField('subject')}
           onBlur={() => setFocusedField(null)}
-        >
-          <option value="">Select a package</option>
-          <option value="Basic Mobile App">Basic Mobile App</option>
-          <option value="Advanced Web App">Advanced Web App</option>
-          <option value="Full Business Suite">Full Business Suite</option>
-          <option value="Custom">Custom Package</option>
-        </select>
-        
-        {/* Custom select arrow */}
-        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none">
-          <i className="fas fa-chevron-down"></i>
-        </div>
+        />
         
         <motion.div 
           className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 origin-left"
           variants={focusIndicatorVariants}
           initial="hidden"
-          animate={focusedField === 'package' ? "visible" : "hidden"}
+          animate={focusedField === 'subject' ? "visible" : "hidden"}
         />
       </motion.div>
       

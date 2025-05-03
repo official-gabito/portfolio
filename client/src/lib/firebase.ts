@@ -33,7 +33,7 @@ export interface ContactMessageData {
   name: string;
   email: string;
   phone: string;
-  package: string;
+  subject: string;
   message: string;
 }
 
@@ -85,12 +85,11 @@ export const deleteContactMessage = async (id: string) => {
 // APPOINTMENTS
 
 export interface AppointmentData {
-  name: string;
+  fullName: string;
   email: string;
-  phone: string;
-  date: Date;
+  preferredDate: Date;
   time: Date;
-  reason: string;
+  topic: string;
   dateFormatted: string;
   timeFormatted: string;
 }

@@ -7,12 +7,11 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { format } from 'date-fns';
 
 interface AppointmentFormData {
-  name: string;
+  fullName: string;
   email: string;
-  phone: string;
-  date: Date | null;
+  preferredDate: Date | null;
   time: Date | null;
-  reason: string;
+  topic: string;
 }
 
 export default function AppointmentSection() {
@@ -23,12 +22,11 @@ export default function AppointmentSection() {
   const [showSuccess, setShowSuccess] = useState(false);
   
   const [formData, setFormData] = useState<AppointmentFormData>({
-    name: '',
+    fullName: '',
     email: '',
-    phone: '',
-    date: null,
+    preferredDate: null,
     time: null,
-    reason: ''
+    topic: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -42,7 +40,7 @@ export default function AppointmentSection() {
   const handleDateChange = (newDate: Date | null) => {
     setFormData({
       ...formData,
-      date: newDate
+      preferredDate: newDate
     });
   };
   
@@ -56,7 +54,7 @@ export default function AppointmentSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.date || !formData.time) {
+    if (!formData.preferredDate || !formData.time) {
       alert('Please select both date and time for your appointment');
       return;
     }
@@ -64,7 +62,7 @@ export default function AppointmentSection() {
     setIsSubmitting(true);
     
     // Format date and time to be stored in Firestore
-    const appointmentDateStr = format(formData.date, 'PP');
+    const appointmentDateStr = format(formData.preferredDate, 'PP');
     const appointmentTimeStr = format(formData.time, 'p');
     
     try {
@@ -74,8 +72,6 @@ export default function AppointmentSection() {
       // Send data to Firebase
       await scheduleAppointment({
         ...formData,
-        date: formData.date,
-        time: formData.time,
         dateFormatted: appointmentDateStr,
         timeFormatted: appointmentTimeStr
       });
@@ -86,12 +82,11 @@ export default function AppointmentSection() {
       // Reset form after 3 seconds
       setTimeout(() => {
         setFormData({
-          name: '',
+          fullName: '',
           email: '',
-          phone: '',
-          date: null,
+          preferredDate: null,
           time: null,
-          reason: ''
+          topic: ''
         });
         setShowSuccess(false);
       }, 3000);

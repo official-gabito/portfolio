@@ -129,7 +129,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
     focused: { 
       y: -25, 
       scale: 0.85, 
-      color: "#3b82f6",
+      color: "var(--input-focus-border-color, #3b82f6)",
       transition: { type: "spring", stiffness: 300, damping: 20 }
     }
   };
@@ -153,7 +153,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
         <motion.div className="relative">
           <motion.label 
             htmlFor="name" 
-            className="absolute left-4 top-3.5 origin-left pointer-events-none text-gray-500 transition-all duration-200"
+            className="absolute left-4 top-3.5 origin-left pointer-events-none text-input-placeholder dark:text-input-placeholder font-medium z-10 transition-all duration-200"
             variants={floatingLabelVariants}
             animate={focusedField === 'name' || formData.name ? "focused" : "default"}
           >
@@ -163,16 +163,18 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
           <input 
             type="text" 
             id="name" 
-            className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent transition-all"
+            className="glass w-full px-4 pt-6 pb-2 rounded-xl border border-input-border focus:border-input-focus-border focus:outline-none focus:ring-0 transition-all"
             required
             value={formData.name}
             onChange={handleChange}
             onFocus={() => setFocusedField('name')}
             onBlur={() => setFocusedField(null)}
+            aria-label="Your name"
+            placeholder=" "
           />
           
           <motion.div 
-            className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 origin-left"
+            className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
             variants={focusIndicatorVariants}
             initial="hidden"
             animate={focusedField === 'name' ? "visible" : "hidden"}
@@ -183,7 +185,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
         <motion.div className="relative">
           <motion.label 
             htmlFor="email" 
-            className="absolute left-4 top-3.5 origin-left pointer-events-none text-gray-500 transition-all duration-200"
+            className="absolute left-4 top-3.5 origin-left pointer-events-none text-input-placeholder dark:text-input-placeholder font-medium z-10 transition-all duration-200"
             variants={floatingLabelVariants}
             animate={focusedField === 'email' || formData.email ? "focused" : "default"}
           >
@@ -193,12 +195,14 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
           <input 
             type="email" 
             id="email" 
-            className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent transition-all"
+            className="glass w-full px-4 pt-6 pb-2 rounded-xl border border-input-border focus:border-input-focus-border focus:outline-none focus:ring-0 transition-all"
             required
             value={formData.email}
             onChange={handleChange}
             onFocus={() => setFocusedField('email')}
             onBlur={() => setFocusedField(null)}
+            aria-label="Your email address"
+            placeholder=" "
           />
           
           <motion.div 
@@ -217,7 +221,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
       >
         <motion.label 
           htmlFor="phone" 
-          className="absolute left-4 top-3.5 origin-left pointer-events-none text-gray-500 transition-all duration-200"
+          className="absolute left-4 top-3.5 origin-left pointer-events-none text-input-placeholder dark:text-input-placeholder font-medium z-10 transition-all duration-200"
           variants={floatingLabelVariants}
           animate={focusedField === 'phone' || formData.phone ? "focused" : "default"}
         >
@@ -227,11 +231,13 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
         <input 
           type="tel" 
           id="phone" 
-          className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent transition-all"
+          className="glass w-full px-4 pt-6 pb-2 rounded-xl border border-input-border focus:border-input-focus-border focus:outline-none focus:ring-0 transition-all"
           value={formData.phone}
           onChange={handleChange}
           onFocus={() => setFocusedField('phone')}
           onBlur={() => setFocusedField(null)}
+          aria-label="Your phone number (optional)"
+          placeholder=" "
         />
         
         <motion.div 
@@ -249,7 +255,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
       >
         <motion.label 
           htmlFor="subject" 
-          className="absolute left-4 top-3.5 origin-left pointer-events-none text-gray-500 transition-all duration-200"
+          className="absolute left-4 top-3.5 origin-left pointer-events-none text-input-placeholder dark:text-input-placeholder font-medium z-10 transition-all duration-200"
           variants={floatingLabelVariants}
           animate={focusedField === 'subject' || formData.subject ? "focused" : "default"}
         >
@@ -259,12 +265,14 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
         <input 
           type="text" 
           id="subject" 
-          className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent transition-all"
+          className="glass w-full px-4 pt-6 pb-2 rounded-xl border border-input-border focus:border-input-focus-border focus:outline-none focus:ring-0 transition-all"
           required
           value={formData.subject}
           onChange={handleChange}
           onFocus={() => setFocusedField('subject')}
           onBlur={() => setFocusedField(null)}
+          aria-label="Subject of your message"
+          placeholder=" "
         />
         
         <motion.div 
@@ -282,7 +290,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
       >
         <motion.label 
           htmlFor="message" 
-          className="absolute left-4 top-3.5 origin-left pointer-events-none text-gray-500 transition-all duration-200"
+          className="absolute left-4 top-3.5 origin-left pointer-events-none text-input-placeholder dark:text-input-placeholder font-medium z-10 transition-all duration-200"
           variants={floatingLabelVariants}
           animate={focusedField === 'message' || formData.message ? "focused" : "default"}
         >
@@ -292,12 +300,14 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
         <textarea 
           id="message" 
           rows={5} 
-          className="glass w-full px-4 pt-6 pb-2 rounded-xl border-0 focus:outline-none focus:ring-0 bg-transparent transition-all resize-none"
+          className="glass w-full px-4 pt-6 pb-2 rounded-xl border border-input-border focus:border-input-focus-border focus:outline-none focus:ring-0 transition-all resize-none"
           required
           value={formData.message}
           onChange={handleChange}
           onFocus={() => setFocusedField('message')}
           onBlur={() => setFocusedField(null)}
+          aria-label="Your message"
+          placeholder=" "
         ></textarea>
         
         <motion.div 

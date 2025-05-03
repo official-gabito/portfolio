@@ -46,24 +46,49 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     });
   };
 
-  // Apply theme to document when it changes
+  // Apply theme to document when it changes with robust handling for mobile
   useEffect(() => {
     const root = document.documentElement;
+    const body = document.body;
+    
+    // Force repaint to avoid visual glitches, especially on mobile
+    const forceRepaint = () => {
+      const bodyDisplay = body.style.display;
+      body.style.display = 'none';
+      void body.offsetHeight; // Trigger reflow
+      body.style.display = bodyDisplay;
+    };
     
     // Add transition class before changing theme to enable smooth transitions
     root.classList.add('theme-transition');
+    body.classList.add('theme-transition');
     
-    // Apply or remove dark class based on theme
+    // Apply or remove dark class based on theme to both root and body
     if (theme === 'dark') {
       root.classList.add('dark');
+      body.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     } else {
       root.classList.remove('dark');
+      body.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     }
     
-    // Remove transition class after a short delay to prevent transitions on page load
+    // Force all sections to update their styles
+    const sections = document.querySelectorAll('section, div, header, footer, main');
+    sections.forEach(section => {
+      section.classList.add('theme-force-update');
+      setTimeout(() => section.classList.remove('theme-force-update'), 50);
+    });
+    
+    // Force repaint after a brief delay to ensure all styles are applied
+    setTimeout(forceRepaint, 100);
+    
+    // Remove transition class after a delay to prevent transitions on page load
     const timeoutId = setTimeout(() => {
       root.classList.remove('theme-transition');
-    }, 500);
+      body.classList.remove('theme-transition');
+    }, 800);
     
     return () => clearTimeout(timeoutId);
   }, [theme]);

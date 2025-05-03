@@ -336,9 +336,66 @@ input.glass:focus, textarea.glass:focus, select.glass:focus {
   scroll-behavior: smooth;
 }
 
-/* Theme Transition */
+/* Theme Transition - Mobile optimized */
 .theme-transition {
   transition: all 0.5s ease-in-out;
+}
+
+/* Force theme updates for sections that might not properly inherit */
+.theme-force-update {
+  color: inherit;
+  background-color: inherit;
+}
+
+/* Ensure proper theme inheritance on all sections and mobile optimization */
+section, div, header, footer, nav, main, aside {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.5s;
+}
+
+/* Ensure section background colors respect theme properly */
+section, div.glass, header, footer, aside {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+}
+
+.dark section, .dark div.glass, .dark header, .dark footer, .dark aside {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+}
+
+/* Make form elements properly inherit theme on mobile */
+@media (max-width: 768px) {
+  /* Increase contrast of form elements on mobile */
+  input, textarea, select, button {
+    font-size: 16px !important; /* Prevent zoom on focus in iOS */
+    -webkit-appearance: none; /* Fix input appearance on iOS */
+    appearance: none;
+  }
+  
+  input.glass, textarea.glass, select.glass {
+    background: hsl(var(--input-bg)) !important;
+    color: hsl(var(--input-text)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+  }
+  
+  .dark input.glass, .dark textarea.glass, .dark select.glass {
+    background: hsl(var(--input-bg)) !important; 
+    color: hsl(var(--foreground)) !important;
+    border-color: hsl(var(--border)) !important;
+  }
+  
+  /* Ensure labels are always visible on mobile */
+  label, .floating-label, ::placeholder {
+    opacity: 1 !important;
+    visibility: visible !important;
+    color: hsl(var(--input-placeholder)) !important;
+  }
+  
+  .dark label, .dark .floating-label, .dark ::placeholder {
+    color: hsl(var(--input-placeholder)) !important;
+  }
 }
 
 /* Enhanced Cards */
@@ -539,6 +596,17 @@ input.glass:focus, textarea.glass:focus, select.glass:focus {
   --destructive-foreground: 60 9.1% 97.8%;
   --ring: 20 14.3% 4.1%;
   --radius: 0.5rem;
+  
+  /* Form specific variables for improved visibility on all devices */
+  --input-bg: 0 0% 96%;
+  --input-text: 240 10% 3.9%;
+  --input-placeholder: 240 3.7% 40%; 
+  --input-border: 240 5.9% 90%;
+  --input-focus-border: 207 90% 54%;
+  --label-text: 240 10% 3.9%;
+  --glass-bg: 0 0% 100% / 80%;
+  --glass-border: 0 0% 100% / 20%;
+  --glass-shadow: 0 0% 0% / 5%;
 }
 
 .dark {
@@ -561,6 +629,17 @@ input.glass:focus, textarea.glass:focus, select.glass:focus {
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;
   --ring: 240 4.9% 83.9%;
+  
+  /* Dark mode form variables */
+  --input-bg: 240 10% 10%;
+  --input-text: 0 0% 90%;
+  --input-placeholder: 240 5% 65%;
+  --input-border: 240 3.7% 25%;
+  --input-focus-border: 207 90% 54%;
+  --label-text: 0 0% 90%;
+  --glass-bg: 240 10% 10% / 80%;
+  --glass-border: 240 10% 10% / 20%;
+  --glass-shadow: 0 0% 0% / 5%;
 }
 
 @layer base {

@@ -106,6 +106,14 @@
 input.glass, textarea.glass, select.glass {
   background: hsl(var(--input-bg));
   color: hsl(var(--input-text));
+  border: 1px solid hsl(var(--border));
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input.glass:focus, textarea.glass:focus, select.glass:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 2px hsla(var(--primary), 0.2);
+  outline: none;
 }
 
 /* Placeholder text with better contrast */
@@ -113,15 +121,46 @@ input.glass, textarea.glass, select.glass {
   color: hsl(var(--input-placeholder));
 }
 
-/* 3D Tilt Effect */
+/* Improve form element visibility in dark mode */
+.dark input.glass, .dark textarea.glass, .dark select.glass {
+  background: hsl(var(--input-bg));
+  color: hsl(var(--foreground));
+  border-color: hsl(var(--border));
+}
+
+.dark input.glass:focus, .dark textarea.glass:focus, .dark select.glass:focus {
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 2px hsla(var(--primary), 0.3);
+}
+
+/* 3D Tilt Effect - Performance optimized */
 .tilt-card {
   transform-style: preserve-3d;
   transform: perspective(1000px);
-  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .tilt-card-content {
   transform: translateZ(30px);
+}
+
+/* Disable 3D effects on mobile for better performance */
+@media (max-width: 768px) or (prefers-reduced-motion: reduce) {
+  .tilt-card {
+    transform: none !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .tilt-card-content {
+    transform: none;
+  }
+  
+  .tilt-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
 }
 
 /* Magnetic Button Effect */
@@ -129,21 +168,38 @@ input.glass, textarea.glass, select.glass {
   transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-/* Floating Animation */
+/* Floating Animation - Performance optimized */
 @keyframes float {
   0% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translate3d(0, 0, 0) rotate(0deg);
   }
   50% {
-    transform: translateY(-20px) rotate(3deg);
+    transform: translate3d(0, -15px, 0) rotate(2deg);
   }
   100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+/* Mobile-optimized version with reduced movement */
+@media (max-width: 768px) or (prefers-reduced-motion: reduce) {
+  @keyframes float {
+    0% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate3d(0, -8px, 0) rotate(1deg);
+    }
+    100% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
   }
 }
 
 .floating {
   animation: float 6s ease-in-out infinite;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 /* Animated Background Gradient */
@@ -165,7 +221,7 @@ input.glass, textarea.glass, select.glass {
   }
 }
 
-/* Animated SVG Waves */
+/* Animated SVG Waves - Performance optimized */
 .waves {
   position: absolute;
   bottom: 0;
@@ -174,10 +230,13 @@ input.glass, textarea.glass, select.glass {
   margin-bottom: -7px;
   min-height: 100px;
   max-height: 150px;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .parallax > use {
   animation: wave-move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
+  will-change: transform;
 }
 .parallax > use:nth-child(1) {
   animation-delay: -2s;
@@ -209,12 +268,26 @@ input.glass, textarea.glass, select.glass {
   }
 }
 
-/* Floating Shapes for Hero Section */
+/* Optimize waves for mobile */
+@media (max-width: 768px) or (prefers-reduced-motion: reduce) {
+  .parallax > use {
+    animation-duration: 40s; /* Slower animation on mobile */
+  }
+  .parallax > use:nth-child(3),
+  .parallax > use:nth-child(4) {
+    display: none; /* Hide some waves on mobile for better performance */
+  }
+}
+
+/* Floating Shapes for Hero Section - Mobile optimized */
 .floating-shape {
   position: absolute;
   z-index: -1;
   opacity: 0.6;
   filter: blur(1px);
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .shape-1 {
@@ -245,6 +318,17 @@ input.glass, textarea.glass, select.glass {
   background: linear-gradient(45deg, #0ea5e9, #6366f1);
   border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
   animation: float 7s ease-in-out infinite;
+}
+
+/* Hide some shapes on mobile for better performance */
+@media (max-width: 768px) or (prefers-reduced-motion: reduce) {
+  .shape-3 {
+    display: none;
+  }
+  .shape-1, .shape-2 {
+    opacity: 0.4; /* Reduce opacity on mobile */
+    filter: blur(0); /* Remove blur on mobile for better performance */
+  }
 }
 
 /* Smooth Scroll Effect */
@@ -486,10 +570,23 @@ input.glass, textarea.glass, select.glass {
 
   body {
     @apply font-body antialiased bg-background text-foreground overflow-x-hidden;
+    /* Optimize for hardware acceleration */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Optimize scroll performance */
+    will-change: scroll-position;
+    /* Enable smooth scrolling */
+    scroll-behavior: smooth;
+    /* Support for older Safari versions */
+    -webkit-overflow-scrolling: touch;
   }
 
   html {
     @apply scroll-smooth;
+    /* Hardware acceleration for cross-browser compatibility */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 }
 
@@ -505,16 +602,32 @@ input.glass, textarea.glass, select.glass {
   font-family: 'Fira Code', monospace;
 }
 
-/* Animation classes */
+/* Animation classes - Mobile optimized */
 .fadeIn {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  transform: translate3d(0, 20px, 0);
+  will-change: opacity, transform;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  /* Hardware acceleration */
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 .fadeIn.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
+}
+
+/* Reduce animation intensity on mobile for better performance */
+@media (max-width: 768px) or (prefers-reduced-motion: reduce) {
+  .fadeIn {
+    transform: translate3d(0, 10px, 0);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  
+  .stagger-item.visible {
+    animation-duration: 0.5s;
+  }
 }
 
 @keyframes typing {

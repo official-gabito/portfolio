@@ -206,7 +206,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
           />
           
           <motion.div 
-            className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 origin-left"
+            className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
             variants={focusIndicatorVariants}
             initial="hidden"
             animate={focusedField === 'email' ? "visible" : "hidden"}
@@ -241,7 +241,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
         />
         
         <motion.div 
-          className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 origin-left"
+          className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
           variants={focusIndicatorVariants}
           initial="hidden"
           animate={focusedField === 'phone' ? "visible" : "hidden"}
@@ -276,7 +276,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
         />
         
         <motion.div 
-          className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 origin-left"
+          className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
           variants={focusIndicatorVariants}
           initial="hidden"
           animate={focusedField === 'subject' ? "visible" : "hidden"}
@@ -311,7 +311,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
         ></textarea>
         
         <motion.div 
-          className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 origin-left"
+          className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
           variants={focusIndicatorVariants}
           initial="hidden"
           animate={focusedField === 'message' ? "visible" : "hidden"}

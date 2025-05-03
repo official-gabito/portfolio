@@ -365,6 +365,15 @@ section, div.glass, header, footer, aside {
   background-color: hsl(var(--background));
 }
 
+/* Additional border utilities for form elements */
+.border-input-border {
+  border-color: var(--input-border-color);
+}
+
+.focus\:border-input-focus-border:focus {
+  border-color: var(--input-focus-border-color);
+}
+
 /* Make form elements properly inherit theme on mobile */
 @media (max-width: 768px) {
   /* Increase contrast of form elements on mobile */
@@ -377,13 +386,17 @@ section, div.glass, header, footer, aside {
   input.glass, textarea.glass, select.glass {
     background: hsl(var(--input-bg)) !important;
     color: hsl(var(--input-text)) !important;
-    border: 1px solid hsl(var(--border)) !important;
+    border: 1px solid var(--input-border-color) !important;
+  }
+  
+  input.glass:focus, textarea.glass:focus, select.glass:focus {
+    border-color: var(--input-focus-border-color) !important;
   }
   
   .dark input.glass, .dark textarea.glass, .dark select.glass {
     background: hsl(var(--input-bg)) !important; 
     color: hsl(var(--foreground)) !important;
-    border-color: hsl(var(--border)) !important;
+    border-color: var(--input-border-color) !important;
   }
   
   /* Ensure labels are always visible on mobile */
@@ -603,6 +616,8 @@ section, div.glass, header, footer, aside {
   --input-placeholder: 240 3.7% 40%; 
   --input-border: 240 5.9% 90%;
   --input-focus-border: 207 90% 54%;
+  --input-border-color: hsl(240 5.9% 90%);
+  --input-focus-border-color: hsl(207 90% 54%);
   --label-text: 240 10% 3.9%;
   --glass-bg: 0 0% 100% / 80%;
   --glass-border: 0 0% 100% / 20%;
@@ -636,6 +651,8 @@ section, div.glass, header, footer, aside {
   --input-placeholder: 240 5% 65%;
   --input-border: 240 3.7% 25%;
   --input-focus-border: 207 90% 54%;
+  --input-border-color: hsl(240 3.7% 25%);
+  --input-focus-border-color: hsl(207 90% 54%);
   --label-text: 0 0% 90%;
   --glass-bg: 240 10% 10% / 80%;
   --glass-border: 240 10% 10% / 20%;

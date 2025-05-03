@@ -107,6 +107,8 @@ export default function Layout({ children }: LayoutProps) {
                 <li><a href="#home" className="text-gray-400 hover:text-primary transition-colors duration-300">Home</a></li>
                 <li><a href="#about" className="text-gray-400 hover:text-primary transition-colors duration-300">About</a></li>
                 <li><a href="#projects" className="text-gray-400 hover:text-primary transition-colors duration-300">Projects</a></li>
+                <li><a href="#pricing" className="text-gray-400 hover:text-primary transition-colors duration-300">Pricing</a></li>
+                <li><a href="#appointment" className="text-gray-400 hover:text-primary transition-colors duration-300">Book Appointment</a></li>
                 <li><a href="#contact" className="text-gray-400 hover:text-primary transition-colors duration-300">Contact</a></li>
               </ul>
             </div>
@@ -156,6 +158,8 @@ function NavLinks({ mobile = false }: NavLinksProps) {
       <a href="#skills" className={`hover:text-primary transition-colors duration-300 ${mobile ? 'py-2' : ''}`}>Skills</a>
       <a href="#projects" className={`hover:text-primary transition-colors duration-300 ${mobile ? 'py-2' : ''}`}>Projects</a>
       <a href="#services" className={`hover:text-primary transition-colors duration-300 ${mobile ? 'py-2' : ''}`}>Services</a>
+      <a href="#pricing" className={`hover:text-primary transition-colors duration-300 ${mobile ? 'py-2' : ''}`}>Pricing</a>
+      <a href="#appointment" className={`hover:text-primary transition-colors duration-300 ${mobile ? 'py-2' : ''}`}>Book Now</a>
       {mobile ? (
         <a href="#contact" className={`py-2 text-primary font-medium transition-colors duration-300`}>Contact Me</a>
       ) : (

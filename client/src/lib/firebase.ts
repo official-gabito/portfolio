@@ -13,12 +13,13 @@ import {
 import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyDEj0aPyAyigb44g1VDreGNm_JfZYSBc5M",
-  authDomain: "gabriel-portfolio-77232.firebaseapp.com",
-  projectId: "gabriel-portfolio-77232",
-  storageBucket: "gabriel-portfolio-77232.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:123456789abcdef"
+  apiKey: "AIzaSyAUNYFRXsClJe2bfiJ_IDWbHpVM14u-8WE",
+  authDomain: "html-6aa97.firebaseapp.com",
+  projectId: "html-6aa97",
+  storageBucket: "html-6aa97.appspot.com",
+  messagingSenderId: "29341518763",
+  appId: "1:29341518763:web:fd103ec55acf4a8f4120ee",
+  measurementId: "G-SSF5C4DK0N"
 };
 
 // Initialize Firebase

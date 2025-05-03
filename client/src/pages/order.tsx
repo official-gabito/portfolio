@@ -95,12 +95,14 @@ export default function OrderPage() {
     setIsSubmitting(true);
     
     try {
-      // Here you'd integrate with Firebase
-      console.log('Order data:', {
+      // Import dynamically to avoid issues with SSR
+      const { submitOrder } = await import('@/lib/firebase');
+      
+      // Submit order to Firebase
+      await submitOrder({
         ...formData,
         planId: selectedPlan.id,
-        planName: selectedPlan.name,
-        createdAt: new Date()
+        planName: selectedPlan.name
       });
       
       // Show success message and reset form

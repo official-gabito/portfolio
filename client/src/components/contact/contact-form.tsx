@@ -1,7 +1,8 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useForm } from '@/context/form-context';
 import { sendContactMessage } from '@/lib/firebase';
+import { useUI } from '@/context/ui-context';
 
 interface ContactFormProps {
   onSuccess: () => void;
@@ -19,8 +20,21 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
     email: '',
     phone: '',
     subject: selectedPackage || '',
-    message: ''
+    message: selectedPackage 
+      ? `I'm interested in the "${selectedPackage}" package. Please contact me with more details.` 
+      : ''
   });
+  
+  // Update form data when selectedPackage changes
+  useEffect(() => {
+    if (selectedPackage) {
+      setFormData(prev => ({
+        ...prev,
+        subject: selectedPackage,
+        message: `I'm interested in the "${selectedPackage}" package. Please contact me with more details.`
+      }));
+    }
+  }, [selectedPackage]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { id, value } = e.target;

@@ -1,4 +1,4 @@
-import { useState, ReactNode, useEffect, useRef } from "react";
+import { useState, ReactNode, useEffect, useRef, createContext, useContext } from "react";
 import { Link, useLocation } from "wouter";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { motion, AnimatePresence } from "framer-motion";
@@ -10,20 +10,78 @@ interface LayoutProps {
   children: ReactNode;
 }
 
+// Create context for mobile menu state
+interface MobileMenuContextType {
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (isOpen: boolean) => void;
+  toggleMobileMenu: () => void;
+}
+
+const MobileMenuContext = createContext<MobileMenuContextType>({
+  isMobileMenuOpen: false,
+  setIsMobileMenuOpen: () => {},
+  toggleMobileMenu: () => {},
+});
+
 // Desktop navigation links
 function NavLinks() {
+  const { setIsMobileMenuOpen } = useContext(MobileMenuContext);
+  
   return (
     <>
-      <a href="#home" className="hover:text-primary transition-colors duration-300">Home</a>
-      <a href="#about" className="hover:text-primary transition-colors duration-300">About</a>
-      <a href="#skills" className="hover:text-primary transition-colors duration-300">Skills</a>
-      <a href="#projects" className="hover:text-primary transition-colors duration-300">Projects</a>
-      <a href="#services" className="hover:text-primary transition-colors duration-300">Services</a>
-      <a href="#pricing" className="hover:text-primary transition-colors duration-300">Pricing</a>
-      <a href="#appointment" className="hover:text-primary transition-colors duration-300">Book Now</a>
+      <a 
+        href="#home" 
+        className="hover:text-primary transition-colors duration-300"
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        Home
+      </a>
+      <a 
+        href="#about" 
+        className="hover:text-primary transition-colors duration-300"
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        About
+      </a>
+      <a 
+        href="#skills" 
+        className="hover:text-primary transition-colors duration-300"
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        Skills
+      </a>
+      <a 
+        href="#projects" 
+        className="hover:text-primary transition-colors duration-300"
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        Projects
+      </a>
+      <a 
+        href="#services" 
+        className="hover:text-primary transition-colors duration-300"
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        Services
+      </a>
+      <a 
+        href="#pricing" 
+        className="hover:text-primary transition-colors duration-300"
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        Pricing
+      </a>
+      <a 
+        href="#appointment" 
+        className="hover:text-primary transition-colors duration-300"
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        Book Now
+      </a>
       <a 
         href="#contact" 
         className="px-4 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors duration-300"
+        onClick={() => setIsMobileMenuOpen(false)}
       >
         Contact Me
       </a>
@@ -129,8 +187,15 @@ export default function Layout({ children }: LayoutProps) {
     document.body.style.overflow = '';
   }, [location]);
 
+  // Create the mobile menu context value
+  const mobileMenuContextValue = {
+    isMobileMenuOpen,
+    setIsMobileMenuOpen,
+    toggleMobileMenu
+  };
+
   return (
-    <>
+    <MobileMenuContext.Provider value={mobileMenuContextValue}>
       {/* Mobile overlay when sidebar is open */}
       <AnimatePresence>
         {isMobileMenuOpen && (
@@ -308,6 +373,6 @@ export default function Layout({ children }: LayoutProps) {
           </div>
         </div>
       </footer>
-    </>
+    </MobileMenuContext.Provider>
   );
 }

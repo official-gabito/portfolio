@@ -117,17 +117,17 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section id="home" ref={sectionRef} className="min-h-screen flex items-center py-20 relative overflow-hidden gradient-bg">
-      {/* Floating shapes */}
-      <div className="floating-shape shape-1"></div>
-      <div className="floating-shape shape-2"></div>
-      <div className="floating-shape shape-3"></div>
+    <section id="home" ref={sectionRef} className="min-h-screen flex items-center py-20 relative overflow-hidden">
+      {/* Floating shapes with reduced opacity */}
+      <div className="floating-shape shape-1 opacity-30"></div>
+      <div className="floating-shape shape-2 opacity-30"></div>
+      <div className="floating-shape shape-3 opacity-30"></div>
       
-      {/* Content container */}
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-10">
+      {/* Content container with increased spacing */}
+      <div className="container mx-auto px-6 relative z-10 py-12">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-16">
           <motion.div 
-            className="lg:w-1/2 space-y-6 text-center lg:text-left"
+            className="lg:w-1/2 space-y-8 text-center lg:text-left"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -153,7 +153,7 @@ export default function HeroSection() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
               >
-                Hi, I'm <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Gabriel Naandum</span>
+                Hi, I'm <span className="text-primary">Gabriel Naandum</span>
               </motion.h1>
               <div className="h-16 mt-4">
                 <motion.p 
@@ -166,7 +166,7 @@ export default function HeroSection() {
                 </motion.p>
               </div>
               <motion.p 
-                className="text-gray-600 dark:text-gray-300 text-lg max-w-xl mx-auto lg:mx-0 mt-4"
+                className="text-gray-800 dark:text-gray-200 text-lg max-w-xl mx-auto lg:mx-0 mt-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.9, duration: 0.5 }}
@@ -177,7 +177,7 @@ export default function HeroSection() {
             </motion.div>
             
             <motion.div 
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-6"
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.1, duration: 0.5 }}
@@ -185,7 +185,7 @@ export default function HeroSection() {
               <motion.a 
                 ref={viewWorkButtonRef}
                 href="#projects" 
-                className="magnetic-button radial-button px-8 py-4 text-primary-foreground rounded-full font-medium transition-all duration-300 shadow-lg hover:shadow-blue-500/30"
+                className="magnetic-button px-8 py-4 bg-primary text-white rounded-full font-medium transition-all duration-300 shadow-lg hover:shadow-blue-500/30"
                 whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(59, 130, 246, 0.5)" }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -204,19 +204,18 @@ export default function HeroSection() {
           </motion.div>
           
           <motion.div 
-            className="lg:w-1/2 relative"
+            className="lg:w-1/2 relative mt-12 lg:mt-0"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
-            style={{ y, opacity }}
           >
-            <div className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 mx-auto relative">
-              {/* Animated outer ring */}
+            <div className="w-72 h-72 md:w-96 md:h-96 lg:w-[450px] lg:h-[450px] mx-auto relative">
+              {/* Subtle animated outer ring */}
               <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full opacity-20"
+                className="absolute inset-0 bg-gradient-to-r from-blue-400/30 to-blue-600/30 rounded-full"
                 animate={{ 
-                  scale: [1, 1.1, 1],
-                  rotate: [0, 5, 0, -5, 0]
+                  scale: [1, 1.05, 1],
+                  rotate: [0, 3, 0, -3, 0]
                 }}
                 transition={{ 
                   repeat: Infinity, 
@@ -225,13 +224,13 @@ export default function HeroSection() {
                 }}
               />
               
-              {/* Profile image container */}
+              {/* Profile image container - larger and more prominent */}
               <motion.div
                 className="relative w-full h-full p-2 z-10"
-                whileHover={{ scale: 1.05, rotate: 3 }}
+                whileHover={{ scale: 1.03 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="glass w-full h-full rounded-full p-1">
+                <div className="glass w-full h-full rounded-full p-2">
                   <img 
                     src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" 
                     alt="Gabriel Naandum" 
@@ -240,9 +239,9 @@ export default function HeroSection() {
                 </div>
               </motion.div>
               
-              {/* Floating tech badges */}
+              {/* Repositioned floating tech badges to avoid overlapping the image */}
               <motion.div 
-                className="absolute -bottom-8 -right-8 glass p-3 rounded-2xl shadow-xl"
+                className="absolute -bottom-5 -right-5 glass p-3 rounded-2xl shadow-xl"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 1.2, duration: 0.5 }}
@@ -254,7 +253,7 @@ export default function HeroSection() {
               </motion.div>
               
               <motion.div 
-                className="absolute -top-8 -left-8 glass p-3 rounded-2xl shadow-xl"
+                className="absolute -top-5 -left-5 glass p-3 rounded-2xl shadow-xl"
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 1.4, duration: 0.5 }}
@@ -266,7 +265,7 @@ export default function HeroSection() {
               </motion.div>
               
               <motion.div 
-                className="absolute top-1/2 -right-10 glass p-3 rounded-2xl shadow-xl"
+                className="absolute top-1/2 right-0 translate-x-1/2 glass p-3 rounded-2xl shadow-xl"
                 initial={{ x: 20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 1.6, duration: 0.5 }}
@@ -280,9 +279,9 @@ export default function HeroSection() {
           </motion.div>
         </div>
         
-        {/* Scroll indicator */}
+        {/* Scroll indicator - repositioned to avoid overlapping content */}
         <motion.div 
-          className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-20"
+          className="absolute bottom-16 left-1/2 transform -translate-x-1/2 z-20"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.8, duration: 0.5 }}
@@ -298,7 +297,7 @@ export default function HeroSection() {
             }}
             whileHover={{ scale: 1.1 }}
           >
-            <span className="text-sm">Scroll Down</span>
+            <span className="text-sm font-medium">Scroll Down</span>
             <i className="fas fa-chevron-down"></i>
           </motion.a>
         </motion.div>

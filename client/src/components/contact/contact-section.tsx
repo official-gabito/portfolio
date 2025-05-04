@@ -152,15 +152,27 @@ export default function ContactSection() {
               <div className="mt-8 text-center">
                 <motion.a 
                   href={profileData.cvUrl} 
-                  className="inline-flex items-center gap-2 px-6 py-3 border-2 border-primary text-primary rounded-full font-medium hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
-                  whileHover={{ scale: 1.05 }}
+                  className="download-resume-button inline-flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-full font-medium shadow-lg hover:shadow-blue-500/30 transition-all duration-300"
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: "0 10px 25px rgba(59, 130, 246, 0.5)"
+                  }}
                   whileTap={{ scale: 0.95 }}
                   target="_blank"
                   rel="noreferrer"
+                  download
                 >
-                  <i className="fas fa-download"></i>
-                  <span>Download CV</span>
+                  <i className="fas fa-file-download text-lg"></i>
+                  <span className="font-semibold">Download Resume</span>
                 </motion.a>
+                <motion.p 
+                  className="text-sm text-gray-500 dark:text-gray-400 mt-3"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  Get my latest professional resume in PDF format
+                </motion.p>
               </div>
             </motion.div>
           </div>

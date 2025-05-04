@@ -47,17 +47,17 @@ export default function Home() {
   useEffect(() => {
     // Listen for the window load event to ensure all assets are loaded
     const handleLoad = () => {
-      // Add a small delay to make the loader more visible
+      // Add a longer delay to make the loader more visible
       setTimeout(() => {
         setIsLoading(false);
-      }, 2000);
+      }, 3500);
     };
     
     // If window is already loaded, set a timeout
     if (document.readyState === 'complete') {
       setTimeout(() => {
         setIsLoading(false);
-      }, 2000);
+      }, 3500);
     } else {
       window.addEventListener('load', handleLoad);
       return () => window.removeEventListener('load', handleLoad);

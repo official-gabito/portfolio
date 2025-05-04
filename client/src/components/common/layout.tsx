@@ -275,7 +275,7 @@ export default function Layout({ children }: LayoutProps) {
             transition={{ duration: 0.5 }}
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            <span className="bg-primary text-primary-foreground px-2 py-1 rounded mr-2">GN</span>
+            <img src="/assets/my_logo.webp" alt="Gabriel Naandum Logo" className="w-10 h-10 rounded-full mr-2" />
             Gabriel
           </motion.a>
           
@@ -329,7 +329,7 @@ export default function Layout({ children }: LayoutProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
               <a href="#home" className="font-heading font-bold text-2xl text-primary flex items-center mb-4">
-                <span className="bg-primary text-primary-foreground px-2 py-1 rounded mr-2">GN</span>
+                <img src="/assets/my_logo.webp" alt="Gabriel Naandum Logo" className="w-10 h-10 rounded-full mr-2" />
                 Gabriel
               </a>
               <p className="text-gray-400 dark:text-gray-300 mb-4">

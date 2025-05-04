@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Layout from '@/components/common/layout';
 import HeroSection from '@/components/hero/hero-section';
 import AboutSection from '@/components/about/about-section';
@@ -5,11 +6,16 @@ import SkillsSection from '@/components/skills/skills-section';
 import ProjectsSection from '@/components/projects/projects-section';
 import ServicesSection from '@/components/services/services-section';
 import PricingSection from '@/components/pricing/pricing-section';
+import TestimonialsSection from '@/components/testimonials/testimonials-section';
+import FAQSection from '@/components/faq/faq-section';
 import AppointmentSection from '@/components/appointment/appointment-section';
 import ContactSection from '@/components/contact/contact-section';
-import { useEffect } from 'react';
+import AnimatedLoader from '@/components/loader/animated-loader';
 
 export default function Home() {
+  // State to track loading status
+  const [isLoading, setIsLoading] = useState(true);
+  
   // Function to handle section animations on scroll
   useEffect(() => {
     const observeSections = () => {
@@ -36,31 +42,62 @@ export default function Home() {
 
     observeSections();
   }, []);
+  
+  // Simulate page load and hide loader after content is ready
+  useEffect(() => {
+    // Listen for the window load event to ensure all assets are loaded
+    const handleLoad = () => {
+      // Add a small delay to make the loader more visible
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    };
+    
+    // If window is already loaded, set a timeout
+    if (document.readyState === 'complete') {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    } else {
+      window.addEventListener('load', handleLoad);
+      return () => window.removeEventListener('load', handleLoad);
+    }
+  }, []);
 
   return (
-    <Layout>
-      <HeroSection />
-      <div className="fadeIn">
-        <AboutSection />
-      </div>
-      <div className="fadeIn">
-        <SkillsSection />
-      </div>
-      <div className="fadeIn">
-        <ProjectsSection />
-      </div>
-      <div className="fadeIn">
-        <ServicesSection />
-      </div>
-      <div className="fadeIn">
-        <PricingSection />
-      </div>
-      <div className="fadeIn">
-        <AppointmentSection />
-      </div>
-      <div className="fadeIn">
-        <ContactSection />
-      </div>
-    </Layout>
+    <>
+      <AnimatedLoader initialLoading={isLoading} />
+      
+      <Layout>
+        <HeroSection />
+        <div className="fadeIn">
+          <AboutSection />
+        </div>
+        <div className="fadeIn">
+          <SkillsSection />
+        </div>
+        <div className="fadeIn">
+          <ProjectsSection />
+        </div>
+        <div className="fadeIn">
+          <ServicesSection />
+        </div>
+        <div className="fadeIn">
+          <PricingSection />
+        </div>
+        <div className="fadeIn">
+          <TestimonialsSection />
+        </div>
+        <div className="fadeIn">
+          <FAQSection />
+        </div>
+        <div className="fadeIn">
+          <AppointmentSection />
+        </div>
+        <div className="fadeIn">
+          <ContactSection />
+        </div>
+      </Layout>
+    </>
   );
 }

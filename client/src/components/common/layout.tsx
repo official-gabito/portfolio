@@ -72,6 +72,20 @@ function NavLinks() {
         Pricing
       </a>
       <a 
+        href="#testimonials" 
+        className="hover:text-primary transition-colors duration-300"
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        Testimonials
+      </a>
+      <a 
+        href="#faq" 
+        className="hover:text-primary transition-colors duration-300"
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        FAQ
+      </a>
+      <a 
         href="#appointment" 
         className="hover:text-primary transition-colors duration-300"
         onClick={() => setIsMobileMenuOpen(false)}
@@ -102,6 +116,8 @@ function MobileSidebarLinks() {
     { id: 'projects', label: 'Projects', icon: 'folder-open' },
     { id: 'services', label: 'Services', icon: 'briefcase' },
     { id: 'pricing', label: 'Pricing', icon: 'tag' },
+    { id: 'testimonials', label: 'Testimonials', icon: 'quote-right' },
+    { id: 'faq', label: 'FAQ', icon: 'question-circle' },
     { id: 'appointment', label: 'Book Appointment', icon: 'calendar-alt' },
     { id: 'contact', label: 'Contact Me', icon: 'envelope' },
   ];
@@ -339,6 +355,8 @@ export default function Layout({ children }: LayoutProps) {
                 <li><a href="#about" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">About</a></li>
                 <li><a href="#projects" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Projects</a></li>
                 <li><a href="#pricing" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Pricing</a></li>
+                <li><a href="#testimonials" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Testimonials</a></li>
+                <li><a href="#faq" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">FAQ</a></li>
                 <li><a href="#appointment" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Book Appointment</a></li>
                 <li><a href="#contact" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Contact</a></li>
               </ul>

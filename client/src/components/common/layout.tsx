@@ -51,6 +51,13 @@ function NavLinks() {
         Skills
       </a>
       <a 
+        href="#technologies" 
+        className="hover:text-primary transition-colors duration-300"
+        onClick={() => setIsMobileMenuOpen(false)}
+      >
+        Technologies
+      </a>
+      <a 
         href="#projects" 
         className="hover:text-primary transition-colors duration-300"
         onClick={() => setIsMobileMenuOpen(false)}
@@ -113,6 +120,7 @@ function MobileSidebarLinks() {
     { id: 'home', label: 'Home', icon: 'home' },
     { id: 'about', label: 'About Me', icon: 'user' },
     { id: 'skills', label: 'Skills', icon: 'code' },
+    { id: 'technologies', label: 'Technologies', icon: 'laptop-code' },
     { id: 'projects', label: 'Projects', icon: 'folder-open' },
     { id: 'services', label: 'Services', icon: 'briefcase' },
     { id: 'pricing', label: 'Pricing', icon: 'tag' },
@@ -275,7 +283,7 @@ export default function Layout({ children }: LayoutProps) {
             transition={{ duration: 0.5 }}
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            <img src="/assets/my_logo.webp" alt="Gabriel Naandum Logo" className="w-10 h-10 rounded-full mr-2" />
+            <img src="./assets/my_logo.webp" alt="Gabriel Naandum Logo" className="w-10 h-10 rounded-full mr-2" />
             Gabriel
           </motion.a>
           
@@ -329,7 +337,7 @@ export default function Layout({ children }: LayoutProps) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
               <a href="#home" className="font-heading font-bold text-2xl text-primary flex items-center mb-4">
-                <img src="/assets/my_logo.webp" alt="Gabriel Naandum Logo" className="w-10 h-10 rounded-full mr-2" />
+                <img src="./assets/my_logo.webp" alt="Gabriel Naandum Logo" className="w-10 h-10 rounded-full mr-2" />
                 Gabriel
               </a>
               <p className="text-gray-400 dark:text-gray-300 mb-4">
@@ -353,6 +361,8 @@ export default function Layout({ children }: LayoutProps) {
               <ul className="space-y-2">
                 <li><a href="#home" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Home</a></li>
                 <li><a href="#about" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">About</a></li>
+                <li><a href="#skills" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Skills</a></li>
+                <li><a href="#technologies" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Technologies</a></li>
                 <li><a href="#projects" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Projects</a></li>
                 <li><a href="#pricing" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Pricing</a></li>
                 <li><a href="#testimonials" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Testimonials</a></li>

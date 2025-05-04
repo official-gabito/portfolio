@@ -3,6 +3,7 @@ import Layout from '@/components/common/layout';
 import HeroSection from '@/components/hero/hero-section';
 import AboutSection from '@/components/about/about-section';
 import SkillsSection from '@/components/skills/skills-section';
+import TechnologiesSection from '@/components/technologies/technologies-section';
 import ProjectsSection from '@/components/projects/projects-section';
 import ServicesSection from '@/components/services/services-section';
 import PricingSection from '@/components/pricing/pricing-section';
@@ -75,6 +76,9 @@ export default function Home() {
         </div>
         <div className="fadeIn">
           <SkillsSection />
+        </div>
+        <div className="fadeIn">
+          <TechnologiesSection />
         </div>
         <div className="fadeIn">
           <ProjectsSection />

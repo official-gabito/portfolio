@@ -232,7 +232,7 @@ export default function HeroSection() {
               >
                 <div className="glass w-full h-full rounded-full p-2">
                   <img 
-                    src="/assets/my_picture.jpg" 
+                    src="./assets/my_picture.jpg" 
                     alt="Gabriel Naandum" 
                     className="rounded-full w-full h-full object-cover border-2 border-white/20"
                   />

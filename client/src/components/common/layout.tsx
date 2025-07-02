@@ -1,4 +1,11 @@
-import { useState, ReactNode, useEffect, useRef, createContext, useContext } from "react";
+import {
+  useState,
+  ReactNode,
+  useEffect,
+  useRef,
+  createContext,
+  useContext,
+} from "react";
 import { Link, useLocation } from "wouter";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { motion, AnimatePresence } from "framer-motion";
@@ -26,81 +33,81 @@ const MobileMenuContext = createContext<MobileMenuContextType>({
 // Desktop navigation links
 function NavLinks() {
   const { setIsMobileMenuOpen } = useContext(MobileMenuContext);
-  
+
   return (
     <>
-      <a 
-        href="#home" 
+      <a
+        href="#home"
         className="hover:text-primary transition-colors duration-300"
         onClick={() => setIsMobileMenuOpen(false)}
       >
         Home
       </a>
-      <a 
-        href="#about" 
+      <a
+        href="#about"
         className="hover:text-primary transition-colors duration-300"
         onClick={() => setIsMobileMenuOpen(false)}
       >
         About
       </a>
-      <a 
-        href="#skills" 
+      <a
+        href="#skills"
         className="hover:text-primary transition-colors duration-300"
         onClick={() => setIsMobileMenuOpen(false)}
       >
         Skills
       </a>
-      <a 
-        href="#technologies" 
+      <a
+        href="#technologies"
         className="hover:text-primary transition-colors duration-300"
         onClick={() => setIsMobileMenuOpen(false)}
       >
         Technologies
       </a>
-      <a 
-        href="#projects" 
+      <a
+        href="#projects"
         className="hover:text-primary transition-colors duration-300"
         onClick={() => setIsMobileMenuOpen(false)}
       >
         Projects
       </a>
-      <a 
-        href="#services" 
+      <a
+        href="#services"
         className="hover:text-primary transition-colors duration-300"
         onClick={() => setIsMobileMenuOpen(false)}
       >
         Services
       </a>
-      <a 
-        href="#pricing" 
+      <a
+        href="#pricing"
         className="hover:text-primary transition-colors duration-300"
         onClick={() => setIsMobileMenuOpen(false)}
       >
         Pricing
       </a>
-      <a 
-        href="#testimonials" 
+      <a
+        href="#testimonials"
         className="hover:text-primary transition-colors duration-300"
         onClick={() => setIsMobileMenuOpen(false)}
       >
         Testimonials
       </a>
-      <a 
-        href="#faq" 
+      <a
+        href="#faq"
         className="hover:text-primary transition-colors duration-300"
         onClick={() => setIsMobileMenuOpen(false)}
       >
         FAQ
       </a>
-      <a 
-        href="#appointment" 
+      <a
+        href="#appointment"
         className="hover:text-primary transition-colors duration-300"
         onClick={() => setIsMobileMenuOpen(false)}
       >
         Book Now
       </a>
-      <a 
-        href="#contact" 
+      <a
+        href="#contact"
         className="px-4 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors duration-300"
         onClick={() => setIsMobileMenuOpen(false)}
       >
@@ -112,56 +119,57 @@ function NavLinks() {
 
 // Mobile navigation with icons and active state highlighting
 function MobileSidebarLinks() {
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState("home");
   const { toggleMobileMenu } = useContext(MobileMenuContext);
 
   // Navigation items with icons
   const navItems = [
-    { id: 'home', label: 'Home', icon: 'home' },
-    { id: 'about', label: 'About Me', icon: 'user' },
-    { id: 'skills', label: 'Skills', icon: 'code' },
-    { id: 'technologies', label: 'Technologies', icon: 'laptop-code' },
-    { id: 'projects', label: 'Projects', icon: 'folder-open' },
-    { id: 'services', label: 'Services', icon: 'briefcase' },
-    { id: 'pricing', label: 'Pricing', icon: 'tag' },
-    { id: 'testimonials', label: 'Testimonials', icon: 'quote-right' },
-    { id: 'faq', label: 'FAQ', icon: 'question-circle' },
-    { id: 'appointment', label: 'Book Appointment', icon: 'calendar-alt' },
-    { id: 'contact', label: 'Contact Me', icon: 'envelope' },
+    { id: "home", label: "Home", icon: "home" },
+    { id: "about", label: "About Me", icon: "user" },
+    { id: "skills", label: "Skills", icon: "code" },
+    { id: "technologies", label: "Technologies", icon: "laptop-code" },
+    { id: "projects", label: "Projects", icon: "folder-open" },
+    { id: "services", label: "Services", icon: "briefcase" },
+    { id: "pricing", label: "Pricing", icon: "tag" },
+    { id: "testimonials", label: "Testimonials", icon: "quote-right" },
+    { id: "faq", label: "FAQ", icon: "question-circle" },
+    { id: "appointment", label: "Book Appointment", icon: "calendar-alt" },
+    { id: "contact", label: "Contact Me", icon: "envelope" },
   ];
-  
+
   const handleClick = (id: string) => {
     setActiveSection(id);
     toggleMobileMenu(); // Close the mobile menu after clicking
   };
-  
+
   return (
     <>
-      {navItems.map(item => (
-        <motion.a 
+      {navItems.map((item) => (
+        <motion.a
           key={item.id}
-          href={`#${item.id}`} 
+          href={`#${item.id}`}
           className={`flex items-center gap-3 p-3 rounded-lg transition-colors duration-200 ${
-            activeSection === item.id 
-              ? 'bg-primary/10 text-primary font-medium' 
-              : 'hover:bg-muted'
+            activeSection === item.id
+              ? "bg-primary/10 text-primary font-medium"
+              : "hover:bg-muted"
           }`}
           onClick={() => handleClick(item.id)}
           whileHover={{ x: 5 }}
           whileTap={{ scale: 0.98 }}
         >
-          <i className={`fas fa-${item.icon} w-5 h-5 ${activeSection === item.id ? 'text-primary' : ''}`} />
+          <i
+            className={`fas fa-${item.icon} w-5 h-5 ${
+              activeSection === item.id ? "text-primary" : ""
+            }`}
+          />
           <span>{item.label}</span>
         </motion.a>
       ))}
-      
+
       <div className="mt-4 pt-4 border-t">
-        <motion.div
-          whileHover={{ x: 5 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          <Link 
-            href="/admin" 
+        <motion.div whileHover={{ x: 5 }} whileTap={{ scale: 0.98 }}>
+          <Link
+            href="/admin"
             className="flex items-center gap-3 p-3 rounded-lg transition-colors hover:bg-muted"
             onClick={toggleMobileMenu}
           >
@@ -183,14 +191,18 @@ export default function Layout({ children }: LayoutProps) {
   // Handle closing the mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node) && isMobileMenuOpen) {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node) &&
+        isMobileMenuOpen
+      ) {
         setIsMobileMenuOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMobileMenuOpen]);
 
@@ -198,24 +210,24 @@ export default function Layout({ children }: LayoutProps) {
     setIsMobileMenuOpen(!isMobileMenuOpen);
     if (!isMobileMenuOpen) {
       // When opening the menu, prevent body scrolling
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
       // When closing, restore scrolling
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
   };
 
   // Close mobile menu when navigating to a new section
   useEffect(() => {
     setIsMobileMenuOpen(false);
-    document.body.style.overflow = '';
+    document.body.style.overflow = "";
   }, [location]);
 
   // Create the mobile menu context value
   const mobileMenuContextValue = {
     isMobileMenuOpen,
     setIsMobileMenuOpen,
-    toggleMobileMenu
+    toggleMobileMenu,
   };
 
   return (
@@ -240,10 +252,10 @@ export default function Layout({ children }: LayoutProps) {
           <motion.div
             ref={sidebarRef}
             className="fixed right-0 top-0 bottom-0 w-3/4 max-w-xs z-50 bg-background shadow-xl lg:hidden overflow-y-auto"
-            initial={{ x: '100%' }}
+            initial={{ x: "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
             <div className="p-5 flex justify-between items-center border-b">
               <h2 className="font-heading font-bold text-xl">Menu</h2>
@@ -251,7 +263,17 @@ export default function Layout({ children }: LayoutProps) {
                 className="text-foreground p-2 rounded-full hover:bg-muted transition-colors"
                 onClick={toggleMobileMenu}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
                 </svg>
@@ -262,20 +284,22 @@ export default function Layout({ children }: LayoutProps) {
             </div>
             <div className="p-6 border-t mt-auto">
               <SocialIcons className="flex justify-center space-x-6" />
-              <p className="text-center text-muted-foreground text-sm mt-4">© {new Date().getFullYear()} Gabriel Naandum</p>
+              <p className="text-center text-muted-foreground text-sm mt-4">
+                © {new Date().getFullYear()} Gabriel Naandum
+              </p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <motion.nav 
+      <motion.nav
         className="fixed top-0 w-full z-30 bg-background dark:bg-background shadow-sm transition-colors duration-300 backdrop-blur-md"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.3, delay: 0.1 }}
       >
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <motion.a 
+          <motion.a
             href="#home"
             className="font-heading font-bold text-2xl text-primary flex items-center"
             initial={{ opacity: 0 }}
@@ -283,14 +307,18 @@ export default function Layout({ children }: LayoutProps) {
             transition={{ duration: 0.5 }}
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            <img src="./assets/my_logo.webp" alt="Gabriel Naandum Logo" className="w-10 h-10 rounded-full mr-2" />
+            <img
+              src="./assets/my_logo.webp"
+              alt="Gabriel Naandum Logo"
+              className="w-10 h-10 rounded-full mr-2"
+            />
             Gabriel
           </motion.a>
-          
+
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            
-            <motion.button 
+
+            <motion.button
               className="flex lg:hidden items-center justify-center w-10 h-10 text-foreground hover:bg-muted rounded-full transition-colors"
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
               onClick={toggleMobileMenu}
@@ -300,11 +328,21 @@ export default function Layout({ children }: LayoutProps) {
                 animate={isMobileMenuOpen ? "open" : "closed"}
                 variants={{
                   open: { rotate: 90 },
-                  closed: { rotate: 0 }
+                  closed: { rotate: 0 },
                 }}
                 transition={{ duration: 0.3 }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   {isMobileMenuOpen ? (
                     <>
                       <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -320,7 +358,7 @@ export default function Layout({ children }: LayoutProps) {
                 </svg>
               </motion.div>
             </motion.button>
-            
+
             <div className="hidden lg:flex items-center gap-6">
               <NavLinks />
             </div>
@@ -328,75 +366,209 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </motion.nav>
 
-      <main className="pt-20 theme-transition">
-        {children}
-      </main>
+      <main className="pt-20 theme-transition">{children}</main>
 
       <footer className="bg-gray-900 dark:bg-gray-950 text-white py-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
-              <a href="#home" className="font-heading font-bold text-2xl text-primary flex items-center mb-4">
-                <img src="./assets/my_logo.webp" alt="Gabriel Naandum Logo" className="w-10 h-10 rounded-full mr-2" />
+              <a
+                href="#home"
+                className="font-heading font-bold text-2xl text-primary flex items-center mb-4"
+              >
+                <img
+                  src="./assets/my_logo.webp"
+                  alt="Gabriel Naandum Logo"
+                  className="w-10 h-10 rounded-full mr-2"
+                />
                 Gabriel
               </a>
               <p className="text-gray-400 dark:text-gray-300 mb-4">
-                Building high-quality web and mobile applications that deliver exceptional user experiences.
+                Building high-quality web and mobile applications that deliver
+                exceptional user experiences.
               </p>
               <SocialIcons />
             </div>
-            
+
             <div>
-              <h4 className="font-heading text-lg font-bold mb-4 text-gray-100">Services</h4>
+              <h4 className="font-heading text-lg font-bold mb-4 text-gray-100">
+                Services
+              </h4>
               <ul className="space-y-2">
-                <li><a href="#services" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Mobile App Development</a></li>
-                <li><a href="#services" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Web Development</a></li>
-                <li><a href="#services" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">UI/UX Design</a></li>
-                <li><a href="#services" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Backend Development</a></li>
+                <li>
+                  <a
+                    href="#services"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    Mobile App Development
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#services"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    Web Development
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#services"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    UI/UX Design
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#services"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    Backend Development
+                  </a>
+                </li>
               </ul>
             </div>
-            
+
             <div>
-              <h4 className="font-heading text-lg font-bold mb-4 text-gray-100">Quick Links</h4>
+              <h4 className="font-heading text-lg font-bold mb-4 text-gray-100">
+                Quick Links
+              </h4>
               <ul className="space-y-2">
-                <li><a href="#home" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Home</a></li>
-                <li><a href="#about" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">About</a></li>
-                <li><a href="#skills" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Skills</a></li>
-                <li><a href="#technologies" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Technologies</a></li>
-                <li><a href="#projects" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Projects</a></li>
-                <li><a href="#pricing" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Pricing</a></li>
-                <li><a href="#testimonials" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Testimonials</a></li>
-                <li><a href="#faq" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">FAQ</a></li>
-                <li><a href="#appointment" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Book Appointment</a></li>
-                <li><a href="#contact" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">Contact</a></li>
+                <li>
+                  <a
+                    href="#home"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#about"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    About
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#skills"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    Skills
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#technologies"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    Technologies
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#projects"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    Projects
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#pricing"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    Pricing
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#testimonials"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    Testimonials
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#faq"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    FAQ
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#appointment"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    Book Appointment
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#contact"
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    Contact
+                  </a>
+                </li>
               </ul>
             </div>
-            
+
             <div>
-              <h4 className="font-heading text-lg font-bold mb-4 text-gray-100">Contact</h4>
+              <h4 className="font-heading text-lg font-bold mb-4 text-gray-100">
+                Contact
+              </h4>
               <ul className="space-y-2">
                 <li className="flex items-start gap-3">
                   <i className="fas fa-map-marker-alt text-primary mt-1"></i>
-                  <span className="text-gray-400 dark:text-gray-300">{profileData.location}</span>
+                  <span className="text-gray-400 dark:text-gray-300">
+                    {profileData.location}
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <i className="fas fa-envelope text-primary mt-1"></i>
-                  <a href={`mailto:${profileData.email}`} className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">{profileData.email}</a>
+                  <a
+                    href={`mailto:${profileData.email}`}
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    {profileData.email}
+                  </a>
                 </li>
                 <li className="flex items-start gap-3">
                   <i className="fas fa-phone-alt text-primary mt-1"></i>
-                  <a href={`tel:${profileData.phone}`} className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300">{profileData.phone}</a>
+                  <a
+                    href={`tel:${profileData.phone}`}
+                    className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300"
+                  >
+                    {profileData.phone}
+                  </a>
                 </li>
               </ul>
             </div>
           </div>
-          
+
           <div className="border-t border-gray-800 dark:border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 dark:text-gray-300 text-sm">© {new Date().getFullYear()} Gabriel Naandum. All rights reserved.</p>
+            <p className="text-gray-400 dark:text-gray-300 text-sm">
+              © {new Date().getFullYear()} Gabriel Naandum. All rights reserved.
+            </p>
             <div className="mt-4 md:mt-0">
-              <a href="#" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300 text-sm">Privacy Policy</a>
+              <a
+                href="#"
+                className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300 text-sm"
+              >
+                Privacy Policy
+              </a>
               <span className="mx-2 text-gray-600 dark:text-gray-500">|</span>
-              <a href="#" className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300 text-sm">Terms of Service</a>
+              <a
+                href="#"
+                className="text-gray-400 dark:text-gray-300 hover:text-primary transition-colors duration-300 text-sm"
+              >
+                Terms of Service
+              </a>
             </div>
           </div>
         </div>

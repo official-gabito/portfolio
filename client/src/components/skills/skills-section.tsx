@@ -86,38 +86,7 @@ export default function SkillsSection() {
           />
         </motion.div>
         
-        <div className="mt-16">
-          <motion.h3 
-            className="font-heading text-2xl font-bold text-center mb-10"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            Tools & Technologies
-          </motion.h3>
-          
-          <motion.div 
-            className="flex flex-wrap justify-center gap-6"
-            variants={containerVariants}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-          >
-            {profileData.technologies.map((tech, index) => (
-              <motion.div 
-                key={index} 
-                className="flex flex-col items-center"
-                custom={index}
-                variants={techIconVariants}
-                whileHover="hover"
-              >
-                <div className="w-16 h-16 bg-white dark:bg-dark-card rounded-lg shadow-md flex items-center justify-center text-2xl mb-2 hover:text-primary hover:scale-110 transition-all duration-300">
-                  <i className={tech.icon}></i>
-                </div>
-                <span className="text-sm">{tech.name}</span>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+       
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 interface TimelineItem {
   title: string;
@@ -11,14 +11,18 @@ interface TimelineCardProps {
   items: TimelineItem[];
 }
 
-export default function TimelineCard({ title, icon, items }: TimelineCardProps) {
+export default function TimelineCard({
+  title,
+  icon,
+  items,
+}: TimelineCardProps) {
   const cardVariants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.5 }
-    }
+      transition: { duration: 0.5 },
+    },
   };
 
   const itemVariants = {
@@ -28,14 +32,14 @@ export default function TimelineCard({ title, icon, items }: TimelineCardProps) 
       x: 0,
       transition: {
         delay: 0.1 * index,
-        duration: 0.3
-      }
-    })
+        duration: 0.3,
+      },
+    }),
   };
 
   return (
-    <motion.div 
-      className="bg-white dark:bg-dark-card p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+    <motion.div
+      className="bg-card border border-border p-6 rounded-lg shadow-md hover:shadow-lg dark:shadow-[0_4px_30px_rgba(0,0,0,0.2)] transition-shadow duration-300"
       variants={cardVariants}
       whileHover={{ y: -5 }}
     >
@@ -45,8 +49,8 @@ export default function TimelineCard({ title, icon, items }: TimelineCardProps) 
       <h4 className="font-heading text-xl font-bold mb-2">{title}</h4>
       <ul className="space-y-4 mt-4">
         {items.map((item, index) => (
-          <motion.li 
-            key={index} 
+          <motion.li
+            key={index}
             className="flex gap-3"
             custom={index}
             variants={itemVariants}
@@ -56,7 +60,9 @@ export default function TimelineCard({ title, icon, items }: TimelineCardProps) 
             </div>
             <div>
               <h5 className="font-medium">{item.title}</h5>
-              <p className="text-sm text-gray-600 dark:text-gray-400">{item.subtitle}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                {item.subtitle}
+              </p>
             </div>
           </motion.li>
         ))}

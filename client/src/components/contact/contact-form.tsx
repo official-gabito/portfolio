@@ -1,421 +1,242 @@
-import { useState, useRef, useEffect } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { useForm } from '@/context/form-context';
-import { sendContactMessage } from '@/lib/firebase';
-import { useUI } from '@/context/ui-context';
+import { useState } from "react";
+import { motion } from "framer-motion";
 
-interface ContactFormProps {
-  onSuccess: () => void;
-}
-
-export default function ContactForm({ onSuccess }: ContactFormProps) {
-  const { selectedPackage, resetSelectedPackage } = useForm();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [focusedField, setFocusedField] = useState<string | null>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const isInView = useInView(formRef, { once: true, amount: 0.3 });
-  
+export default function ContactForm({ onSuccess }) {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: selectedPackage || '',
-    message: selectedPackage 
-      ? `I'm interested in the "${selectedPackage}" package. Please contact me with more details.` 
-      : ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
-  
-  // Update form data when selectedPackage changes
-  useEffect(() => {
-    if (selectedPackage) {
-      setFormData(prev => ({
-        ...prev,
-        subject: selectedPackage,
-        message: `I'm interested in the "${selectedPackage}" package. Please contact me with more details.`
-      }));
-    }
-  }, [selectedPackage]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [focusedField, setFocusedField] = useState(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { id, value } = e.target;
+  const handleChange = (e) => {
     setFormData({
       ...formData,
-      [id]: value
+      [e.target.name]: e.target.value,
     });
   };
 
-  const { showAlert } = useUI();
-  
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
     setIsSubmitting(true);
-    
-    try {
-      // Send data to Firebase
-      await sendContactMessage(formData);
-      
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
-      });
-      resetSelectedPackage();
-      
-      // Show success modal and custom alert
-      onSuccess();
-      showAlert({
-        type: 'success',
-        title: 'Message Sent!',
-        message: 'Your message has been sent successfully. I\'ll get back to you as soon as possible!',
-        autoClose: true,
-        autoCloseTime: 5000,
-        position: 'top'
-      });
-    } catch (error) {
-      console.error('Error sending message:', error);
-      showAlert({
-        type: 'error',
-        title: 'Message Failed',
-        message: 'There was an error sending your message. Please try again later.',
-        autoClose: true,
-        autoCloseTime: 6000,
-        position: 'top'
-      });
-    } finally {
+
+    // Simulate form submission
+    setTimeout(() => {
       setIsSubmitting(false);
-    }
+      onSuccess();
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    }, 2000);
   };
 
-  // Form animation variants
-  const formVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
+  const InputField = ({ name, label, type = "text", required = false }) => {
+    const hasValue = formData[name]?.length > 0;
+    const isFocused = focusedField === name;
+    const isActive = hasValue || isFocused;
+
+    return (
+      <div className="relative group">
+        <input
+          type={type}
+          name={name}
+          value={formData[name]}
+          onChange={handleChange}
+          onFocus={() => setFocusedField(name)}
+          onBlur={() => setFocusedField(null)}
+          required={required}
+          className="w-full px-4 py-4 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-blue-500 focus:outline-none transition-all duration-200 text-gray-900 dark:text-white"
+        />
+        <motion.label
+          className="absolute left-4 pointer-events-none select-none bg-white dark:bg-gray-800 px-1"
+          animate={{
+            top: isActive ? "-8px" : "50%",
+            fontSize: isActive ? "12px" : "16px",
+            color: isActive ? "#2563eb" : "#6b7280",
+            y: isActive ? 0 : "-50%",
+          }}
+          transition={{
+            duration: 0.15,
+            ease: [0.4, 0, 0.2, 1],
+          }}
+        >
+          {label}
+          {required && <span className="text-red-500 ml-1">*</span>}
+        </motion.label>
+
+        {/* Animated border bottom */}
+        <motion.div
+          className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: isFocused ? 1 : 0 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          style={{ transformOrigin: "left" }}
+        />
+
+        {/* Glow effect on focus */}
+        {isFocused && (
+          <motion.div
+            className="absolute inset-0 rounded-xl bg-blue-500/5 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+          />
+        )}
+      </div>
+    );
   };
 
-  // Individual input field animation
-  const inputVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { 
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        duration: 0.6 
-      }
-    }
-  };
-  
-  // Animation for the field focus indicator
-  const focusIndicatorVariants = {
-    hidden: { scaleX: 0 },
-    visible: { 
-      scaleX: 1,
-      transition: { duration: 0.3 }
-    }
-  };
-  
-  // Button hover animation
-  const buttonVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        delay: 0.5
-      }
-    },
-    hover: { 
-      scale: 1.05,
-      boxShadow: "0 10px 25px rgba(59, 130, 246, 0.5)",
-      transition: { 
-        type: "spring",
-        stiffness: 400,
-        damping: 10
-      }
-    },
-    tap: { 
-      scale: 0.95,
-      boxShadow: "0 5px 15px rgba(59, 130, 246, 0.3)",
-    }
-  };
-  
-  // Floating label animation
-  const floatingLabelVariants = {
-    default: { y: 0, scale: 1 },
-    focused: { 
-      y: -25, 
-      scale: 0.85, 
-      color: "var(--input-focus-border-color, #3b82f6)",
-      transition: { type: "spring", stiffness: 300, damping: 20 }
-    }
+  const TextAreaField = ({ name, label, required = false }) => {
+    const hasValue = formData[name]?.length > 0;
+    const isFocused = focusedField === name;
+    const isActive = hasValue || isFocused;
+
+    return (
+      <div className="relative group">
+        <textarea
+          name={name}
+          value={formData[name]}
+          onChange={handleChange}
+          onFocus={() => setFocusedField(name)}
+          onBlur={() => setFocusedField(null)}
+          required={required}
+          rows={5}
+          className="w-full px-4 py-4 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-blue-500 focus:outline-none transition-all duration-200 text-gray-900 dark:text-white resize-vertical min-h-[140px]"
+        />
+        <motion.label
+          className="absolute left-4 pointer-events-none select-none bg-white dark:bg-gray-800 px-1"
+          animate={{
+            top: isActive ? "-8px" : "16px",
+            fontSize: isActive ? "12px" : "16px",
+            color: isActive ? "#2563eb" : "#6b7280",
+          }}
+          transition={{
+            duration: 0.15,
+            ease: [0.4, 0, 0.2, 1],
+          }}
+        >
+          {label}
+          {required && <span className="text-red-500 ml-1">*</span>}
+        </motion.label>
+
+        {/* Animated border bottom */}
+        <motion.div
+          className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: isFocused ? 1 : 0 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          style={{ transformOrigin: "left" }}
+        />
+
+        {/* Glow effect on focus */}
+        {isFocused && (
+          <motion.div
+            className="absolute inset-0 rounded-xl bg-blue-500/5 pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+          />
+        )}
+      </div>
+    );
   };
 
   return (
-    <motion.form 
-      ref={formRef}
-      id="contactForm" 
-      className="space-y-8"
-      variants={formVariants}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-      onSubmit={handleSubmit}
-    >
-      {/* Name and Email fields */}
-      <motion.div 
-        className="grid grid-cols-1 md:grid-cols-2 gap-6"
-        variants={inputVariants}
-      >
-        {/* Name field */}
-        <motion.div className="relative">
-          <motion.label 
-            htmlFor="name" 
-            className="absolute left-4 top-3.5 origin-left pointer-events-none text-input-placeholder dark:text-input-placeholder font-medium z-10 transition-all duration-200"
-            variants={floatingLabelVariants}
-            animate={focusedField === 'name' || formData.name ? "focused" : "default"}
-          >
-            Name
-          </motion.label>
-          
-          <input 
-            type="text" 
-            id="name" 
-            className="glass w-full px-4 pt-6 pb-2 rounded-xl border border-input-border focus:border-input-focus-border focus:outline-none focus:ring-0 transition-all"
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+        >
+          <InputField name="name" label="Full Name" required />
+        </motion.div>
+
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
+          <InputField
+            name="email"
+            label="Email Address"
+            type="email"
             required
-            value={formData.name}
-            onChange={handleChange}
-            onFocus={() => setFocusedField('name')}
-            onBlur={() => setFocusedField(null)}
-            aria-label="Your name"
-            placeholder=" "
-          />
-          
-          <motion.div 
-            className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
-            variants={focusIndicatorVariants}
-            initial="hidden"
-            animate={focusedField === 'name' ? "visible" : "hidden"}
           />
         </motion.div>
-        
-        {/* Email field */}
-        <motion.div className="relative">
-          <motion.label 
-            htmlFor="email" 
-            className="absolute left-4 top-3.5 origin-left pointer-events-none text-input-placeholder dark:text-input-placeholder font-medium z-10 transition-all duration-200"
-            variants={floatingLabelVariants}
-            animate={focusedField === 'email' || formData.email ? "focused" : "default"}
-          >
-            Email
-          </motion.label>
-          
-          <input 
-            type="email" 
-            id="email" 
-            className="glass w-full px-4 pt-6 pb-2 rounded-xl border border-input-border focus:border-input-focus-border focus:outline-none focus:ring-0 transition-all"
-            required
-            value={formData.email}
-            onChange={handleChange}
-            onFocus={() => setFocusedField('email')}
-            onBlur={() => setFocusedField(null)}
-            aria-label="Your email address"
-            placeholder=" "
-          />
-          
-          <motion.div 
-            className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
-            variants={focusIndicatorVariants}
-            initial="hidden"
-            animate={focusedField === 'email' ? "visible" : "hidden"}
-          />
-        </motion.div>
-      </motion.div>
-      
-      {/* Phone field */}
-      <motion.div 
-        variants={inputVariants}
-        className="relative"
+      </div>
+
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
       >
-        <motion.label 
-          htmlFor="phone" 
-          className="absolute left-4 top-3.5 origin-left pointer-events-none text-input-placeholder dark:text-input-placeholder font-medium z-10 transition-all duration-200"
-          variants={floatingLabelVariants}
-          animate={focusedField === 'phone' || formData.phone ? "focused" : "default"}
-        >
-          Phone (Optional)
-        </motion.label>
-        
-        <input 
-          type="tel" 
-          id="phone" 
-          className="glass w-full px-4 pt-6 pb-2 rounded-xl border border-input-border focus:border-input-focus-border focus:outline-none focus:ring-0 transition-all"
-          value={formData.phone}
-          onChange={handleChange}
-          onFocus={() => setFocusedField('phone')}
-          onBlur={() => setFocusedField(null)}
-          aria-label="Your phone number (optional)"
-          placeholder=" "
-        />
-        
-        <motion.div 
-          className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
-          variants={focusIndicatorVariants}
-          initial="hidden"
-          animate={focusedField === 'phone' ? "visible" : "hidden"}
-        />
+        <InputField name="subject" label="Subject" required />
       </motion.div>
-      
-      {/* Subject field */}
-      <motion.div 
-        variants={inputVariants}
-        className="relative"
+
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.4, duration: 0.5 }}
       >
-        <motion.label 
-          htmlFor="subject" 
-          className="absolute left-4 top-3.5 origin-left pointer-events-none text-input-placeholder dark:text-input-placeholder font-medium z-10 transition-all duration-200"
-          variants={floatingLabelVariants}
-          animate={focusedField === 'subject' || formData.subject ? "focused" : "default"}
-        >
-          Subject
-        </motion.label>
-        
-        <input 
-          type="text" 
-          id="subject" 
-          className="glass w-full px-4 pt-6 pb-2 rounded-xl border border-input-border focus:border-input-focus-border focus:outline-none focus:ring-0 transition-all"
-          required
-          value={formData.subject}
-          onChange={handleChange}
-          onFocus={() => setFocusedField('subject')}
-          onBlur={() => setFocusedField(null)}
-          aria-label="Subject of your message"
-          placeholder=" "
-        />
-        
-        <motion.div 
-          className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
-          variants={focusIndicatorVariants}
-          initial="hidden"
-          animate={focusedField === 'subject' ? "visible" : "hidden"}
-        />
+        <TextAreaField name="message" label="Your Message" required />
       </motion.div>
-      
-      {/* Message field */}
-      <motion.div 
-        variants={inputVariants}
-        className="relative"
+
+      <motion.div
+        className="text-center pt-4"
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
       >
-        <motion.label 
-          htmlFor="message" 
-          className="absolute left-4 top-3.5 origin-left pointer-events-none text-input-placeholder dark:text-input-placeholder font-medium z-10 transition-all duration-200"
-          variants={floatingLabelVariants}
-          animate={focusedField === 'message' || formData.message ? "focused" : "default"}
-        >
-          Message
-        </motion.label>
-        
-        <textarea 
-          id="message" 
-          rows={5} 
-          className="glass w-full px-4 pt-6 pb-2 rounded-xl border border-input-border focus:border-input-focus-border focus:outline-none focus:ring-0 transition-all resize-none"
-          required
-          value={formData.message}
-          onChange={handleChange}
-          onFocus={() => setFocusedField('message')}
-          onBlur={() => setFocusedField(null)}
-          aria-label="Your message"
-          placeholder=" "
-        ></textarea>
-        
-        <motion.div 
-          className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
-          variants={focusIndicatorVariants}
-          initial="hidden"
-          animate={focusedField === 'message' ? "visible" : "hidden"}
-        />
-      </motion.div>
-      
-      {/* Submit button */}
-      <motion.div 
-        className="flex justify-center md:justify-start"
-        variants={inputVariants}
-      >
-        <motion.button 
-          type="submit" 
-          className="radial-button px-8 py-4 rounded-full font-medium text-white shadow-lg disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-300 flex items-center gap-2"
-          variants={buttonVariants}
-          whileHover="hover"
-          whileTap="tap"
+        <motion.button
+          onClick={handleSubmit}
           disabled={isSubmitting}
+          className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-semibold shadow-lg hover:shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 relative overflow-hidden"
+          whileHover={{
+            scale: 1.02,
+            boxShadow: "0 10px 30px rgba(59, 130, 246, 0.4)",
+          }}
+          whileTap={{ scale: 0.98 }}
         >
+          {/* Button background glow */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-400 opacity-0"
+            whileHover={{ opacity: 0.3 }}
+            transition={{ duration: 0.3 }}
+          />
+
           {isSubmitting ? (
             <>
-              <motion.i 
-                className="fas fa-spinner"
+              <motion.div
+                className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-              ></motion.i>
-              <span>Sending...</span>
+              />
+              <span className="relative z-10">Sending Message...</span>
             </>
           ) : (
             <>
-              <span>Send Message</span>
-              <motion.i 
-                className="fas fa-paper-plane"
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-              ></motion.i>
+              <motion.i
+                className="fas fa-paper-plane text-lg relative z-10"
+                whileHover={{ x: 2 }}
+                transition={{ duration: 0.2 }}
+              />
+              <span className="relative z-10">Send Message</span>
             </>
           )}
-          
-          {/* Animated particles on hover */}
-          <AnimatePresence>
-            {!isSubmitting && (
-              <motion.span 
-                className="absolute inset-0 rounded-full overflow-hidden"
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
-                {[...Array(5)].map((_, i) => (
-                  <motion.span
-                    key={`particle-${i}`}
-                    className="absolute w-1 h-1 bg-white rounded-full"
-                    style={{ 
-                      top: `${20 + (i * 15)}%`,
-                      left: `${10 + (i * 20)}%` 
-                    }}
-                    animate={{ 
-                      y: [0, -10, 0],
-                      opacity: [0, 1, 0]
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      delay: i * 0.2,
-                      repeat: Infinity,
-                      repeatType: "loop"
-                    }}
-                  />
-                ))}
-              </motion.span>
-            )}
-          </AnimatePresence>
         </motion.button>
+
+        <motion.p
+          className="text-sm text-gray-500 dark:text-gray-400 mt-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
+          💬 I'll get back to you within 24 hours
+        </motion.p>
       </motion.div>
-    </motion.form>
+    </div>
   );
 }

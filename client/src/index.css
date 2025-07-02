@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&family=Montserrat:wght@300;400;500;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -8,79 +8,92 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-    
+
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-    
+
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    
+
     --primary: 221.2 83.2% 53.3%;
     --primary-foreground: 210 40% 98%;
-    
+
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-    
+
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    
+
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
-    
+
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
-    
+
     --radius: 0.5rem;
 
     --glass-bg: 0 0% 100% / 0.25;
     --glass-border: 0 0% 100% / 0.18;
     --glass-shadow: 31 38 135 / 0.15;
 
-    --input-bg: 0 0% 100% / 0.85;
+    --input-bg: 0 0% 100%;
     --input-text: 215 28% 17%;
-    --input-placeholder: 215 16% 47% / 0.8;
+    --input-placeholder: 215 16% 47%;
+    --input-border: 215 16% 87%;
+    --input-focus-border: 207 90% 54%;
+    --input-border-color: hsl(215 16% 87%);
+    --input-focus-border-color: hsl(207 90% 54%);
+    --label-text: 215 28% 17%;
+    --glass-bg: 0 0% 100% / 95%;
+    --glass-border: 215 16% 87% / 50%;
+    --glass-shadow: 215 16% 47% / 10%;
   }
 
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-    
+
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-    
+
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    
+
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
-    
+
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-    
+
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-    
+
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-    
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-    
+
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
 
-    --glass-bg: 225 25% 14% / 0.35;
-    --glass-border: 0 0% 100% / 0.05;
-    --glass-shadow: 220 80% 30% / 0.15;
+    --glass-bg: 222.2 84% 4.9% / 95%;
+    --glass-border: 217.2 32.6% 17.5% / 50%;
+    --glass-shadow: 0 0% 0% / 10%;
 
-    --input-bg: 222 25% 20% / 0.85;
-    --input-text: 210 40% 96%;
-    --input-placeholder: 210 34% 80% / 0.8;
+    --input-bg: 222.2 84% 4.9%;
+    --input-text: 210 40% 98%;
+    --input-placeholder: 217.2 32.6% 60%;
+    --input-border: 217.2 32.6% 17.5%;
+    --input-focus-border: 207 90% 54%;
+    --input-border-color: hsl(217.2 32.6% 17.5%);
+    --input-focus-border-color: hsl(207 90% 54%);
+    --label-text: 210 40% 98%;
   }
 }
 
@@ -103,34 +116,89 @@
 }
 
 /* Input field specific glassmorphism with better contrast */
-input.glass, textarea.glass, select.glass {
-  background: hsl(var(--input-bg));
-  color: hsl(var(--input-text));
-  border: 1px solid hsl(var(--border));
-  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+input.glass,
+textarea.glass,
+select.glass {
+  background: hsl(var(--input-bg)) !important;
+  color: hsl(var(--input-text)) !important;
+  border: 1px solid var(--input-border-color) !important;
+  transition: border-color 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-input.glass:focus, textarea.glass:focus, select.glass:focus {
-  border-color: hsl(var(--primary));
-  box-shadow: 0 0 0 2px hsla(var(--primary), 0.2);
+input.glass:focus,
+textarea.glass:focus,
+select.glass:focus {
+  border-color: var(--input-focus-border-color) !important;
+  box-shadow: 0 0 0 2px hsla(var(--primary), 0.2) !important;
   outline: none;
 }
 
 /* Placeholder text with better contrast */
 .glass::placeholder {
-  color: hsl(var(--input-placeholder));
+  color: hsl(var(--input-placeholder)) !important;
+}
+
+/* Enhanced label visibility */
+label,
+.floating-label {
+  color: hsl(var(--label-text)) !important;
+  opacity: 0.9 !important;
+  font-weight: 500;
+  z-index: 10;
+}
+
+/* Placeholder text with better contrast */
+input::placeholder,
+textarea::placeholder {
+  color: hsl(var(--input-placeholder)) !important;
+  opacity: 0.7 !important;
 }
 
 /* Improve form element visibility in dark mode */
-.dark input.glass, .dark textarea.glass, .dark select.glass {
-  background: hsl(var(--input-bg));
-  color: hsl(var(--foreground));
-  border-color: hsl(var(--border));
+.dark input.glass,
+.dark textarea.glass,
+.dark select.glass {
+  background: hsl(var(--input-bg)) !important;
+  color: hsl(var(--foreground)) !important;
+  border-color: var(--input-border-color) !important;
 }
 
-.dark input.glass:focus, .dark textarea.glass:focus, .dark select.glass:focus {
-  border-color: hsl(var(--primary));
+.dark input.glass:focus,
+.dark textarea.glass:focus,
+.dark select.glass:focus {
+  border-color: var(--input-focus-border-color) !important;
   box-shadow: 0 0 0 2px hsla(var(--primary), 0.3);
+}
+
+/* Enhanced label visibility in dark mode */
+.dark label,
+.dark .floating-label {
+  color: hsl(var(--label-text)) !important;
+  opacity: 0.95 !important;
+}
+
+/* Placeholder text with better contrast in dark mode */
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: hsl(var(--input-placeholder)) !important;
+  opacity: 0.7 !important;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  input.glass,
+  textarea.glass,
+  select.glass {
+    font-size: 16px !important;
+    background: hsl(var(--input-bg)) !important;
+  }
+
+  label,
+  .floating-label {
+    font-size: 14px !important;
+    transform-origin: left !important;
+  }
 }
 
 /* 3D Tilt Effect - Performance optimized */
@@ -149,14 +217,13 @@ input.glass:focus, textarea.glass:focus, select.glass:focus {
 /* Disable 3D effects on mobile for better performance */
 @media (max-width: 768px) or (prefers-reduced-motion: reduce) {
   .tilt-card {
-    transform: none !important;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-  
+
   .tilt-card-content {
     transform: none;
   }
-  
+
   .tilt-card:hover {
     transform: translateY(-5px) !important;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -235,7 +302,7 @@ input.glass:focus, textarea.glass:focus, select.glass:focus {
 }
 
 .parallax > use {
-  animation: wave-move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
+  animation: wave-move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
   will-change: transform;
 }
 .parallax > use:nth-child(1) {
@@ -261,10 +328,10 @@ input.glass:focus, textarea.glass:focus, select.glass:focus {
 
 @keyframes wave-move-forever {
   0% {
-    transform: translate3d(-90px,0,0);
+    transform: translate3d(-90px, 0, 0);
   }
-  100% { 
-    transform: translate3d(85px,0,0);
+  100% {
+    transform: translate3d(85px, 0, 0);
   }
 }
 
@@ -325,7 +392,8 @@ input.glass:focus, textarea.glass:focus, select.glass:focus {
   .shape-3 {
     display: none;
   }
-  .shape-1, .shape-2 {
+  .shape-1,
+  .shape-2 {
     opacity: 0.4; /* Reduce opacity on mobile */
     filter: blur(0); /* Remove blur on mobile for better performance */
   }
@@ -348,19 +416,34 @@ input.glass:focus, textarea.glass:focus, select.glass:focus {
 }
 
 /* Ensure proper theme inheritance on all sections and mobile optimization */
-section, div, header, footer, nav, main, aside {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+section,
+div,
+header,
+footer,
+nav,
+main,
+aside {
+  transition-property: color, background-color, border-color,
+    text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.5s;
 }
 
 /* Ensure section background colors respect theme properly */
-section, div.glass, header, footer, aside {
+section,
+div.glass,
+header,
+footer,
+aside {
   color: hsl(var(--foreground));
   background-color: hsl(var(--background));
 }
 
-.dark section, .dark div.glass, .dark header, .dark footer, .dark aside {
+.dark section,
+.dark div.glass,
+.dark header,
+.dark footer,
+.dark aside {
   color: hsl(var(--foreground));
   background-color: hsl(var(--background));
 }
@@ -377,36 +460,49 @@ section, div.glass, header, footer, aside {
 /* Make form elements properly inherit theme on mobile */
 @media (max-width: 768px) {
   /* Increase contrast of form elements on mobile */
-  input, textarea, select, button {
+  input,
+  textarea,
+  select,
+  button {
     font-size: 16px !important; /* Prevent zoom on focus in iOS */
     -webkit-appearance: none; /* Fix input appearance on iOS */
     appearance: none;
   }
-  
-  input.glass, textarea.glass, select.glass {
+
+  input.glass,
+  textarea.glass,
+  select.glass {
     background: hsl(var(--input-bg)) !important;
     color: hsl(var(--input-text)) !important;
     border: 1px solid var(--input-border-color) !important;
   }
-  
-  input.glass:focus, textarea.glass:focus, select.glass:focus {
+
+  input.glass:focus,
+  textarea.glass:focus,
+  select.glass:focus {
     border-color: var(--input-focus-border-color) !important;
   }
-  
-  .dark input.glass, .dark textarea.glass, .dark select.glass {
-    background: hsl(var(--input-bg)) !important; 
+
+  .dark input.glass,
+  .dark textarea.glass,
+  .dark select.glass {
+    background: hsl(var(--input-bg)) !important;
     color: hsl(var(--foreground)) !important;
     border-color: var(--input-border-color) !important;
   }
-  
+
   /* Ensure labels are always visible on mobile */
-  label, .floating-label, ::placeholder {
+  label,
+  .floating-label,
+  ::placeholder {
     opacity: 1 !important;
     visibility: visible !important;
     color: hsl(var(--input-placeholder)) !important;
   }
-  
-  .dark label, .dark .floating-label, .dark ::placeholder {
+
+  .dark label,
+  .dark .floating-label,
+  .dark ::placeholder {
     color: hsl(var(--input-placeholder)) !important;
   }
 }
@@ -578,7 +674,7 @@ section, div.glass, header, footer, aside {
   color: hsl(var(--foreground));
 }
 
-.dark .MuiClock-pin, 
+.dark .MuiClock-pin,
 .dark .MuiClockPointer-root,
 .dark .MuiClockPointer-thumb {
   background-color: hsl(var(--primary));
@@ -609,11 +705,11 @@ section, div.glass, header, footer, aside {
   --destructive-foreground: 60 9.1% 97.8%;
   --ring: 20 14.3% 4.1%;
   --radius: 0.5rem;
-  
+
   /* Form specific variables for improved visibility on all devices */
   --input-bg: 0 0% 96%;
   --input-text: 240 10% 3.9%;
-  --input-placeholder: 240 3.7% 40%; 
+  --input-placeholder: 240 3.7% 40%;
   --input-border: 240 5.9% 90%;
   --input-focus-border: 207 90% 54%;
   --input-border-color: hsl(240 5.9% 90%);
@@ -644,7 +740,7 @@ section, div.glass, header, footer, aside {
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;
   --ring: 240 4.9% 83.9%;
-  
+
   /* Dark mode form variables */
   --input-bg: 240 10% 10%;
   --input-text: 0 0% 90%;
@@ -687,15 +783,15 @@ section, div.glass, header, footer, aside {
 }
 
 .font-heading {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .font-body {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .font-code {
-  font-family: 'Fira Code', monospace;
+  font-family: "Fira Code", monospace;
 }
 
 /* Animation classes - Mobile optimized */
@@ -720,20 +816,29 @@ section, div.glass, header, footer, aside {
     transform: translate3d(0, 10px, 0);
     transition: opacity 0.4s ease-out, transform 0.4s ease-out;
   }
-  
+
   .stagger-item.visible {
     animation-duration: 0.5s;
   }
 }
 
 @keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
 
 @keyframes blink-caret {
-  from, to { border-color: transparent }
-  50% { border-color: hsl(var(--primary)) }
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: hsl(var(--primary));
+  }
 }
 
 .typing-text {
@@ -742,14 +847,17 @@ section, div.glass, header, footer, aside {
   white-space: nowrap;
   margin: 0 auto;
   letter-spacing: 0.1em;
-  animation: 
-    typing 3.5s steps(40, end),
-    blink-caret 0.75s step-end infinite;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
 }
 
 .animate-bounce {
@@ -757,8 +865,15 @@ section, div.glass, header, footer, aside {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: .8; transform: scale(1.05); }
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
 }
 
 .animate-pulse {
@@ -778,7 +893,8 @@ section, div.glass, header, footer, aside {
 
 .project-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 /* Service card hover effect */
@@ -816,7 +932,7 @@ section, div.glass, header, footer, aside {
 }
 
 .theme-switch::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 2px;
   left: 2px;
